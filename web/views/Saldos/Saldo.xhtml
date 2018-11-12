@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <!--Adquiriendo tipoCuentas al cargar la pagina-->
+                #{saldoBean.listarSaldos()}
+                <!--Adquiriendo Cuentas al cargar la pagina-->
+                #{cuentaBean.listarCuentas()}
+                <!--Adquiriendo Periodos al cargar la pagina-->
+                #{periodoBean.listarPeriodos()}
+
+                <h2>Datos de Saldo</h2>
+                <h:form>
+                    <p:commandButton value="Nuevo Saldo" actionListener="#{saldoBean.prepararNuevoSaldo()}"
+                                     oncomplete="PF('dialogNuevoSaldo').show();" 
+                                     update=":formNuevoSaldo"/> 
+
+                </h:form>
+
+                <h:form id="formulario">
+
+                    <p:dataTable id="datos" value="#{saldoBean.listaSaldos}" var="sl">
+
+                        <p:column headerText="Correlativo "> 
+                            <p:outputLabel value="#{sl.idSaldo}"/>
+                        </p:column>
+
+                        <p:column headerText="Año ">
+                            <p:outputLabel value="#{sl.anio}"/>
+                        </p:column>
+
+                        <p:column headerText="Saldo Inicial">
+                            <p:outputLabel value="#{sl.saldoInicial}"/>
+                        </p:column>
+
+                        <p:column headerText="Saldo Actual">
+                            <p:outputLabel value="#{sl.saldoActual}"/>
+                        </p:column>
+
+                        <p:column headerText="Saldo Final">
+                            <p:outputLabel value="#{sl.saldoFinal}"/>
+                        </p:column>
+
+                        <p:column headerText="Cuenta">
+                            <p:outputLabel value="#{sl.cuenta}"/>
+                        </p:column>
+
+                        <p:column headerText="Periodo">
+                            <p:outputLabel value="#{sl.periodo}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Eliminar" >
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarSaldo').show();"
+                                             update=":formEliminarSaldo">
+                                <f:setPropertyActionListener target="#{saldoBean.sa}" value="#{sl}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+
+                <h:form id="formNuevoSaldo">
+                    <p:growl id="growl" showDetail="true" autoUpdate="true"/>
+                    <p:dialog id="digNuevoSaldo" widgetVar="dialogNuevoSaldo" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true">
+                        <p:fieldset legend="Saldo de Cuenta">
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+
+                                <p:outputLabel value="Anio"/>
+                                <p:spinner id="stockMinimo" value="#{saldoBean.sa.anio}" min="2000" max="2018" />
+
+                                <p:outputLabel value="Saldo Inicial"/>
+                                <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  stepFactor="0.01"/>
+
+                                <p:outputLabel value="Saldo Actual"/>
+                                <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  stepFactor="0.01"/>
+
+                                <p:outputLabel value="Saldo Final"/>
+                                <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  stepFactor="0.01"/>
+
+                                <p:outputLabel value="Cuenta  " for="cuenta"/>
+                                <p:selectOneMenu id="cuenta" value="#{saldoBean.sa.cuenta}">
+                                    <f:selectItems value="#{cuentaBean.listaCuentas}" var="c" itemValue="#{c.idCuenta}" 
+                                                   itemLabel="#{c.descripcion}"
+                                                   />
+                                </p:selectOneMenu>
+                                <p:message for='cuenta'/>
+
+                                <p:outputLabel value="Periodo  " for="periodo"/>
+                                <p:selectOneMenu id="periodo" value="#{saldoBean.sa.periodo}">
+                                    <f:selectItems value="#{periodoBean.listaPeriodos}" var="p" itemValue="#{p.idPeriodo}" 
+                                                   itemLabel="#{p.fechaInicio}   /   #{p.fechaFin} "
+                                                   />
+                                </p:selectOneMenu>
+                                <p:message for='periodo'/>
+
+                            </p:panelGrid>
+                        </p:fieldset>
+                        <p:commandButton value="Guardar" actionListener="#{saldoBean.insertarSaldo()}"
+                                         update=":formulario:datos" 
+                                         oncomplete="PF('dialogNuevoSaldo').hide();"/>
+
+                        <p:commandButton value="Cancelar"
+                                         oncomplete="PF('dialogNuevoSaldo').hide();"/>
+                    </p:dialog>
+
+                </h:form>
+                
+                
+                <h:form id="formEliminarSaldo">
+                    <p:dialog id="digEliminarSaldo" widgetVar="dialogEliminarSaldo" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true">
+
+                        <h:outputText value=" ¿Desea eliminar el saldo? "/>
+                        <p:commandButton value="Si" actionListener="#{saldoBean.eliminar()}"
+                                         update=":formulario:datos"  
+                                         oncomplete="PF('dialogEliminarSaldo').hide();"/>
+
+                        <p:commandButton value="No"
+                                         oncomplete="PF('dialogEliminarSaldo').hide();"/>
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

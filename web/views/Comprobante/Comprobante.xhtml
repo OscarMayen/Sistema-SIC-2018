@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <!--Adquiriendo Comprobantes al cargar la pagina-->
+                #{comprobanteBean.listarComprobantes()}
+
+                <h2>Datos de Comprobante</h2>
+                <h:form>
+                    <p:commandButton value="Nuevo Comprobante" actionListener="#{comprobanteBean.prepararNuevoComprobante()}"
+                                     oncomplete="PF('dialogNuevoComprobante').show();" 
+                                     update=":formNuevoComprobante"/> 
+                </h:form>
+
+                <h:form id="formulario">
+
+                    <p:dataTable id="datos" value="#{comprobanteBean.listaComprobantes}" var="cb">
+
+                        <p:column headerText="Correlativo "> 
+                            <p:outputLabel value="#{cb.idComprobante}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha de realizacion ">
+                            <p:outputLabel value="#{cb.fecha}"/>
+                        </p:column>
+
+                        <p:column headerText="Usuario">
+                            <p:outputLabel value="#{cb.usuario}"/>
+                        </p:column>
+
+                        <p:column headerText="Descripcion">
+                            <p:outputLabel value="#{cb.descripcion}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha Contable">
+                            <p:outputLabel value="#{cb.fechaContable}"/>
+                        </p:column>
+                        
+                         <p:column headerText="Eliminar" >
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarComprobante').show();"
+                                             update=":formEliminarComprobante">
+                                <f:setPropertyActionListener target="#{comprobanteBean.com}" value="#{cb}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+
+                <h:form id="formNuevoComprobante">
+                    <p:growl id="growl" showDetail="true" autoUpdate="true"/>
+                    <p:dialog id="digNuevoComprobante" widgetVar="dialogNuevoComprobante" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true">
+                        <p:fieldset legend="Nuevo Comprobante">
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+
+                                <p:outputLabel value="Fecha de Realizacion"/>
+                                <p:calendar id="fechaInicio" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
+                                            locale="es" required="true" pattern="yyyy/MM/dd"/>
+
+                                <p:outputLabel value="Usuario "/>
+                                <p:inputText value="#{comprobanteBean.com.usuario}"/>
+
+                                <p:outputLabel value="Descripcion "/>
+                                <p:inputText value="#{comprobanteBean.com.descripcion}"/>
+
+                                <p:outputLabel value="Fecha Contable"/>
+                                <p:calendar id="fechaFin" value="#{comprobanteBean.com.fechaContable}"  placeholder="yyyy/MM/dd" 
+                                            locale="es" required="true" pattern="yyyy/MM/dd"/>
+
+                            </p:panelGrid>
+
+                            <p:commandButton value="Guardar" actionListener="#{comprobanteBean.insertarComprobante()}"
+                                             update=":formulario:datos" 
+                                             oncomplete="PF('dialogNuevoComprobante').hide();"/>
+
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('dialogNuevoComprobante').hide();"/>
+                        </p:fieldset>
+                    </p:dialog>
+
+                </h:form>
+                
+                <h:form id="formEliminarComprobante">
+                    <p:dialog id="digEliminarComprobante" widgetVar="dialogEliminarComprobante" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true">
+
+                        <h:outputText value=" ¿Desea eliminar el comprobante? "/>
+                        <p:commandButton value="Si" actionListener="#{comprobanteBean.eliminar()}"
+                                         update=":formulario:datos"  
+                                         oncomplete="PF('dialogEliminarComprobante').hide();"/>
+
+                        <p:commandButton value="No"
+                                         oncomplete="PF('dialogEliminarComprobante').hide();"/>
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

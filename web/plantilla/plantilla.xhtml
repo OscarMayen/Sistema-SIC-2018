@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <link href="../resources/css/cssLayout.css" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body>
+        <div id="divGeneral">
+            <div id="top">
+                <ui:insert name="top"></ui:insert>
+                <h1>SISTEMA CONTABLE</h1>
+                <div id="menuPrincipal">
+                    <h:form>  
+                        <p:menubar>
+                            <p:submenu label="Inicio" icon="ui-icon-document">
+                                <p:menuitem value="Pagina Inicio" url="#" />
+                                <p:separator />
+                                <p:menuitem value="Salir" url="#" />
+                            </p:submenu>
+
+                            <p:submenu label="Clientes" icon="ui-icon-pencil">
+                                <p:menuitem value="Ver/Editar" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+                            </p:submenu>
+
+                            <p:submenu label="Productos" icon="ui-icon-pencil">
+                                <p:menuitem value="Ver/Editar" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+                            </p:submenu>
+
+                            <p:submenu label="Ventas" icon="ui-icon-pencil">
+                                <p:menuitem value="Facturar" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                            </p:submenu>
+                            
+                            <p:submenu label="Catalogo de Cuentas" icon="ui-icon-pencil">
+                                <p:menuitem value="Listado de Cuentas" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                            </p:submenu>
+                            
+                            <p:submenu label="Estados Financieros" icon="ui-icon-pencil">
+                                <p:menuitem value="Estado de Comprobacion" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                                <p:menuitem value="Estado de Resultados" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                                <p:menuitem value="Estado de Capital" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                                <p:menuitem value="Balance General" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                            </p:submenu>
+                            
+                        </p:menubar>
+                    </h:form>
+                </div>
+            </div>
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+            <div id="bottom">
+                <ui:insert name="bottom">&copy; 2018 SISTEMAS CONTABLES</ui:insert>
+            </div>
+        </div>
+    </h:body>
+
+</html>
