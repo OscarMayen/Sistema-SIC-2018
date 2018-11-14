@@ -6,6 +6,7 @@ import com.modelo.Comprobante;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.Date;
 
 /**
  *
@@ -14,16 +15,19 @@ import java.util.ArrayList;
 public class DaoComprobante extends Conexion 
 {
     public void insertarComprobante(Comprobante com) throws Exception {
-        try {
+        try 
+        {
             this.conectar();
-            String sql="insert into comprobante(fecha,usuario,descripcion,fechaContable) value(?,?,?,?)";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setString(1,com.getFecha());
-            pre.setString(2,com.getUsuario());
-            pre.setString(3,com.getDescripcion());
-            pre.setString(4,com.getFechaContable());
+            String sql = "insert into comprobante(fecha,usuario,descripcion,fechaContable) value(?,?,?,?)";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            Date f = convertirSQLDate(com.getFecha());
+            Date fc = convertirSQLDate(com.getFechaContable());
+            pre.setDate(1,f);
+            pre.setString(2, com.getUsuario());
+            pre.setString(3, com.getDescripcion());
+            pre.setDate(4, fc);
             pre.executeUpdate();
-            
+
         } catch (Exception e) {
             throw e;
         }
@@ -40,10 +44,12 @@ public class DaoComprobante extends Conexion
             String sql="update comprobante set fecha=?, usuario=?, descripcion=?, fechaContable=?  "
                     + "where idComprobante=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setString(1,com.getFecha());
+            Date f = convertirSQLDate(com.getFecha());
+            Date fc = convertirSQLDate(com.getFechaContable());
+            pre.setDate(1,f);
             pre.setString(2,com.getUsuario());
             pre.setString(3,com.getDescripcion());
-            pre.setString(4,com.getFechaContable());
+            pre.setDate(4,fc);
             pre.executeUpdate();
             
         } catch (Exception e) {
@@ -81,10 +87,10 @@ public class DaoComprobante extends Conexion
             while (res.next()){
                 Comprobante com=new Comprobante();
                 com.setIdComprobante(res.getInt("idComprobante"));
-                com.setFecha(res.getString("fecha"));
+                com.setFecha(res.getDate("fecha"));
                 com.setUsuario(res.getString("usuario"));
                 com.setDescripcion(res.getString("descripcion"));
-                com.setFechaContable(res.getString("fechaContable"));
+                com.setFechaContable(res.getDate("fechaContable"));
                 comprobantes.add(com);
             }
             
@@ -92,6 +98,12 @@ public class DaoComprobante extends Conexion
         }
      return comprobantes;   
     }
+    
+    public static java.sql.Date convertirSQLDate(java.util.Date UtilSQL)
+     {
+         java.sql.Date SqlSate = new java.sql.Date(UtilSQL.getTime());
+         return SqlSate;
+     }
     
     
 }

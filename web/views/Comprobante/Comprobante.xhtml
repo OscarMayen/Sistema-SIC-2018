@@ -61,21 +61,26 @@
                     <p:dialog id="digNuevoComprobante" widgetVar="dialogNuevoComprobante" resizable="false" showEffect="explode"
                               hideEffect="explode" modal="true">
                         <p:fieldset legend="Nuevo Comprobante">
-                            <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:panelGrid columns="3" style="margin: 0 auto">
 
-                                <p:outputLabel value="Fecha de Realizacion"/>
-                                <p:calendar id="fechaInicio" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
-                                            locale="es" required="true" pattern="yyyy/MM/dd"/>
+                                <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
+                                <p:calendar id="fechaRealizacion" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
+                                            locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                                <p:message for="fechaRealizacion"/>
 
-                                <p:outputLabel value="Usuario "/>
-                                <p:inputText value="#{comprobanteBean.com.usuario}"/>
+                                <p:outputLabel for="usuario" value="Usuario "/>
+                                <p:inputText id="usuario" value="#{comprobanteBean.com.usuario}" required="true"/>
+                                <p:message for="usuario" />
 
-                                <p:outputLabel value="Descripcion "/>
-                                <p:inputText value="#{comprobanteBean.com.descripcion}"/>
+                                <p:outputLabel for="descripcion" value="Descripcion "/>
+                                <p:inputTextarea id="descripcion" rows="5" cols="30" maxlength="40" counterTemplate="{0} characters remaining." 
+                                                 autoResize="false" value="#{comprobanteBean.com.descripcion}" required="true" />
+                                <p:message for="descripcion"/>
 
-                                <p:outputLabel value="Fecha Contable"/>
-                                <p:calendar id="fechaFin" value="#{comprobanteBean.com.fechaContable}"  placeholder="yyyy/MM/dd" 
-                                            locale="es" required="true" pattern="yyyy/MM/dd"/>
+                                <p:outputLabel for="fechaContable" value="Fecha Contable"/>
+                                <p:calendar id="fechaContable" value="#{comprobanteBean.com.fechaContable}"  placeholder="yyyy/MM/dd" 
+                                            locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                                <p:message for="fechaContable"/>
 
                             </p:panelGrid>
 

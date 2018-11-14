@@ -69,13 +69,15 @@
                     <p:dialog id="digNuevoCuenta" widgetVar="dialogNuevoCuenta" resizable="false" showEffect="explode"
                               hideEffect="explode" modal="true">
 
-                        <p:panelGrid columns="2" style="margin: 0 auto">
+                        <p:panelGrid columns="3" style="margin: 0 auto">
 
-                            <p:outputLabel value="Codigo"/>
-                            <p:inputText value="#{cuentaBean.cu.codigo}"/>
+                            <p:outputLabel for="codigo" value="Codigo"/>
+                            <p:inputText id="codigo" value="#{cuentaBean.cu.codigo}" required="true"/>
+                            <p:message for="codigo"/>
 
-                            <p:outputLabel value="Nombre"/>
-                            <p:inputText value="#{cuentaBean.cu.descripcion}"/>
+                            <p:outputLabel for="nombre" value="Nombre"/>
+                            <p:inputText id="nombre" value="#{cuentaBean.cu.descripcion}" required="true"/>
+                            <p:message for="codigo"/>
 
                             <p:outputLabel value="Cuenta Padre:  " for="cuentaP"/>
                             <p:selectOneMenu id="cuentaP" value="#{cuentaBean.cu.cuentaPadre}">
@@ -86,7 +88,7 @@
                             <p:message for='cuentaP'/>
 
                             <p:outputLabel value="Tipo de Cuenta:  " for="tipoC"/>
-                            <p:selectOneMenu id="tipoC" value="#{cuentaBean.cu.tipoCuenta}">
+                            <p:selectOneMenu id="tipoC" value="#{cuentaBean.cu.tipoCuenta}" required="true">
                                 <f:selectItems value="#{tipoCuentaBean.listaTipoC}" var="tc" itemValue="#{tc.id}" 
                                                itemLabel="#{tc.nombre}"
                                                />

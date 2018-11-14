@@ -15,17 +15,16 @@ import java.util.ArrayList;
 public class DaoPeriodo extends Conexion
 {
     public void insertarPeriodo(Periodo pe) throws Exception {
-        try {
+        try 
+        {
+            Date fechaIn = convertirSQLDate(pe.getFechaInicio());
+            Date fechaF = convertirSQLDate(pe.getFechaFin());
             this.conectar();
-            String sql="insert into periodo(fechaInicio, fechaFin) value(?,?)";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setString(1, pe.getFechaInicio());
-            pre.setString(2, pe.getFechaFin());
+            String sql = "insert into periodo(fechaInicio, fechaFin) value(?,?)";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setDate(1, fechaIn);
+            pre.setDate(2, fechaF);
             pre.executeUpdate();
-            System.out.println("//////////////////////////");
-             System.out.println("Iniciooooo " + pe.getFechaInicio());
-            System.out.println("Fin " + pe.getFechaFin());
-            System.out.println("//////////////////////////");
             
         } catch (Exception e) {
             throw e;
@@ -42,8 +41,10 @@ public class DaoPeriodo extends Conexion
             this.conectar();
             String sql="update periodo set fechaInicio=?, fechaFin=? where idperiodo=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setString(1,pe.getFechaInicio());
-            pre.setString(2,pe.getFechaFin());
+            Date fechaIn = convertirSQLDate(pe.getFechaInicio());
+            Date fechaF = convertirSQLDate(pe.getFechaFin());
+            pre.setDate(1,fechaIn);
+            pre.setDate(2,fechaF);
             pre.setInt(3,pe.getIdPeriodo());
             pre.executeUpdate();
             
@@ -84,8 +85,8 @@ public class DaoPeriodo extends Conexion
             while (res.next()){
                 Periodo pe=new Periodo();
                 pe.setIdPeriodo(res.getInt("idPeriodo"));
-                pe.setFechaInicio(res.getString("fechaInicio"));
-                pe.setFechaFin(res.getString("fechaFin"));
+                pe.setFechaInicio(res.getDate("fechaInicio"));
+                pe.setFechaFin(res.getDate("fechaFin"));
                 periodos.add(pe);
                 
             }
@@ -94,5 +95,11 @@ public class DaoPeriodo extends Conexion
         }
      return periodos;   
     }
+     
+     public static java.sql.Date convertirSQLDate(java.util.Date UtilSQL)
+     {
+         java.sql.Date SqlSate = new java.sql.Date(UtilSQL.getTime());
+         return SqlSate;
+     }
     
 }

@@ -1,6 +1,8 @@
 
 package com.modelo;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -8,23 +10,21 @@ package com.modelo;
 public class Comprobante 
 {
     private int idComprobante;
-    private String fecha;
+    private Date fecha;
     private String usuario;
     private String descripcion;
-    private String fechaContable;
+    private Date fechaContable;
 
     public Comprobante() {
     }
 
-    public Comprobante(int idComprobante, String fecha, String usuario, String descripcion, String fechaContable) {
+    public Comprobante(int idComprobante, Date fecha, String usuario, String descripcion, Date fechaContable) {
         this.idComprobante = idComprobante;
         this.fecha = fecha;
         this.usuario = usuario;
         this.descripcion = descripcion;
         this.fechaContable = fechaContable;
     }
-    
-    
 
     public int getIdComprobante() {
         return idComprobante;
@@ -34,11 +34,11 @@ public class Comprobante
         this.idComprobante = idComprobante;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -58,14 +58,14 @@ public class Comprobante
         this.descripcion = descripcion;
     }
 
-    public String getFechaContable() {
+    public Date getFechaContable() {
         return fechaContable;
     }
 
-    public void setFechaContable(String fechaContable) {
+    public void setFechaContable(Date fechaContable) {
         this.fechaContable = fechaContable;
     }
-    
-    
+
+   
     
 }

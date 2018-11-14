@@ -58,15 +58,17 @@
                     <p:dialog id="digNuevoPeriodo" widgetVar="dialogNuevoPeriodo" resizable="false" showEffect="explode"
                               hideEffect="explode" modal="true">
                         <p:fieldset legend="Datos del Periodo">
-                        <p:panelGrid columns="2" style="margin: 0 auto">
+                        <p:panelGrid columns="3" style="margin: 0 auto">
 
-                            <p:outputLabel value="Fecha de Inicio"/>
+                            <p:outputLabel for="fechaInicio" value="Fecha de Inicio"/>
                             <p:calendar id="fechaInicio" value="#{periodoBean.pe.fechaInicio}" placeholder="yyyy/MM/dd" 
-                                        locale="es" required="true" pattern="yyyy/MM/dd"/>
+                                        locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                            <p:message for="fechaInicio"/>
 
-                            <p:outputLabel value="Fecha de Fin"/>
+                            <p:outputLabel for="fechaFin" value="Fecha de Fin"/>
                             <p:calendar id="fechaFin" value="#{periodoBean.pe.fechaFin}"  placeholder="yyyy/MM/dd" 
-                                        locale="es" required="true" pattern="yyyy/MM/dd"/>
+                                        locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                            <p:message for="fechaFin"/>
 
                         </p:panelGrid>
 

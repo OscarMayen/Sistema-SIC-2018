@@ -1,6 +1,8 @@
 
 package com.modelo;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -83,7 +85,6 @@ public class Saldo
     public void setPeriodo(int periodo) {
         this.periodo = periodo;
     }
-    
-    
+
     
 }

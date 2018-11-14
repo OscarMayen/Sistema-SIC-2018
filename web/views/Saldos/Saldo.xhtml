@@ -75,35 +75,42 @@
                     <p:dialog id="digNuevoSaldo" widgetVar="dialogNuevoSaldo" resizable="false" showEffect="explode"
                               hideEffect="explode" modal="true">
                         <p:fieldset legend="Saldo de Cuenta">
-                            <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:panelGrid columns="3" style="margin: 0 auto">
 
-                                <p:outputLabel value="Anio"/>
-                                <p:spinner id="stockMinimo" value="#{saldoBean.sa.anio}" min="2000" max="2018" />
+                                <p:outputLabel for="anio" value="Anio"/>
+                                <p:spinner id="anio" value="#{saldoBean.sa.anio}" min="2000" max="2018" required="true" />
+                                <p:message for="anio"/>
 
-                                <p:outputLabel value="Saldo Inicial"/>
-                                <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  stepFactor="0.01"/>
+                                <p:outputLabel for="saldoInicial" value="Saldo Inicial"/>
+                                <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
+                                           required="true" stepFactor="0.01"/>
+                                <p:message for="saldoInicial"/>
+                                
+                                <p:outputLabel for="saldoActual" value="Saldo Actual"/>
+                                <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
+                                           required="true" stepFactor="0.01"/>
+                                <p:message for="saldoActual"/>
+                                
+                                <p:outputLabel for="saldoFinal" value="Saldo Final"/>
+                                <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  
+                                           required="true" stepFactor="0.01"/>
+                                <p:message for="saldoFinal"/>
 
-                                <p:outputLabel value="Saldo Actual"/>
-                                <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  stepFactor="0.01"/>
-
-                                <p:outputLabel value="Saldo Final"/>
-                                <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  stepFactor="0.01"/>
-
-                                <p:outputLabel value="Cuenta  " for="cuenta"/>
-                                <p:selectOneMenu id="cuenta" value="#{saldoBean.sa.cuenta}">
+                                <p:outputLabel  value="Cuenta  " for="cuenta"/>
+                                <p:selectOneMenu id="cuenta" value="#{saldoBean.sa.cuenta}" required="true">
                                     <f:selectItems value="#{cuentaBean.listaCuentas}" var="c" itemValue="#{c.idCuenta}" 
                                                    itemLabel="#{c.descripcion}"
                                                    />
                                 </p:selectOneMenu>
-                                <p:message for='cuenta'/>
+                                <p:message for="cuenta"/>
 
                                 <p:outputLabel value="Periodo  " for="periodo"/>
-                                <p:selectOneMenu id="periodo" value="#{saldoBean.sa.periodo}">
+                                <p:selectOneMenu id="periodo" value="#{saldoBean.sa.periodo}" required="true">
                                     <f:selectItems value="#{periodoBean.listaPeriodos}" var="p" itemValue="#{p.idPeriodo}" 
                                                    itemLabel="#{p.fechaInicio}   /   #{p.fechaFin} "
                                                    />
                                 </p:selectOneMenu>
-                                <p:message for='periodo'/>
+                                <p:message for="periodo"/>
 
                             </p:panelGrid>
                         </p:fieldset>

@@ -102,4 +102,10 @@ public class DaoSaldo extends Conexion
      return saldos;   
     }
     
+    public static java.sql.Date convertirSQLDate(java.util.Date UtilSQL)
+     {
+         java.sql.Date SqlSate = new java.sql.Date(UtilSQL.getTime());
+         return SqlSate;
+     }
+    
 }

@@ -10,13 +10,13 @@ import java.util.Date;
 public class Periodo 
 {
     private int idPeriodo;
-    private String fechaInicio;
-    private String fechaFin;
+    private Date fechaInicio;
+    private Date fechaFin;
 
     public Periodo() {
     }
 
-    public Periodo(int idPeriodo, String fechaInicio, String fechaFin) {
+    public Periodo(int idPeriodo, Date fechaInicio, Date fechaFin) {
         this.idPeriodo = idPeriodo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -30,22 +30,23 @@ public class Periodo
         this.idPeriodo = idPeriodo;
     }
 
-    public String getFechaInicio() {
+    public Date getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
+    public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaFin() {
+    public Date getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
 
+    
     
    
 }
