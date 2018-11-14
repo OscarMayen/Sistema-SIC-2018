@@ -50,6 +50,7 @@ public class DaoComprobante extends Conexion
             pre.setString(2,com.getUsuario());
             pre.setString(3,com.getDescripcion());
             pre.setDate(4,fc);
+            pre.setInt(5,com.getIdComprobante());
             pre.executeUpdate();
             
         } catch (Exception e) {

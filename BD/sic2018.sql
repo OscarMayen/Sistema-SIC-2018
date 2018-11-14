@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2018 a las 15:43:01
+-- Tiempo de generación: 14-11-2018 a las 16:15:59
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.23
 
@@ -50,7 +50,7 @@ INSERT INTO `comprobante` (`idComprobante`, `fecha`, `usuario`, `descripcion`, `
 CREATE TABLE `comprobantedetalle` (
   `idComprobanteDetalle` int(11) NOT NULL,
   `monto` double NOT NULL,
-  `accion` int(11) NOT NULL,
+  `accion` varchar(25) NOT NULL,
   `idComprobante` int(11) NOT NULL,
   `idCuenta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
