@@ -1,13 +1,14 @@
 
 package com.modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author admin
  */
-public class Saldo 
+public class Saldo implements Serializable
 {
     private int idSaldo;
     private int anio;
@@ -17,6 +18,9 @@ public class Saldo
     private int cuenta;
     private int periodo;
 
+    private String cuenta2;
+    private String periodo2;
+    
     public Saldo() {
     }
 
@@ -30,6 +34,19 @@ public class Saldo
         this.periodo = periodo;
     }
 
+    //Solo para mostrar los datos
+
+    public Saldo(int idSaldo, int anio, double saldoInicial, double saldoActual, double saldoFinal, String cuenta2, String periodo2) {
+        this.idSaldo = idSaldo;
+        this.anio = anio;
+        this.saldoInicial = saldoInicial;
+        this.saldoActual = saldoActual;
+        this.saldoFinal = saldoFinal;
+        this.cuenta2 = cuenta2;
+        this.periodo2 = periodo2;
+    }
+    
+    
     public int getIdSaldo() {
         return idSaldo;
     }
@@ -86,5 +103,21 @@ public class Saldo
         this.periodo = periodo;
     }
 
-    
+    public String getCuenta2() {
+        return cuenta2;
+    }
+
+    public void setCuenta2(String cuenta2) {
+        this.cuenta2 = cuenta2;
+    }
+
+    public String getPeriodo2() {
+        return periodo2;
+    }
+
+    public void setPeriodo2(String periodo2) {
+        this.periodo2 = periodo2;
+    }
+
+        
 }

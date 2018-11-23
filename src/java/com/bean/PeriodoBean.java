@@ -51,7 +51,7 @@ public class PeriodoBean {
         this.listaPeriodos = daoP.mostrarPeriodo();
         this.pe = new Periodo();
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Exito","Periodo mostrados correctamente"));
+        //context.addMessage(null, new FacesMessage("Exito","Periodo mostrados correctamente"));
         
     }
     

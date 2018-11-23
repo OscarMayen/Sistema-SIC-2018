@@ -18,6 +18,9 @@ public class Cuenta
     private int cuentaPadre;
     private int tipoCuenta;
 
+    private String  cuentaPadre2;
+    private String tipoCuenta2;
+    
     public Cuenta() {
     }
 
@@ -35,6 +38,18 @@ public class Cuenta
         this.cuentaPadre = cuentaPadre;
         this.tipoCuenta = tipoCuenta;
     }
+
+    //Solo para mostrar los datos
+    public Cuenta(int idCuenta, String codigo, String descripcion, String cuentaPadre2, String tipoCuenta2) {
+        this.idCuenta = idCuenta;
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+        this.cuentaPadre2 = cuentaPadre2;
+        this.tipoCuenta2 = tipoCuenta2;
+    }
+    
+    
+    
 
     public int getIdCuenta() {
         return idCuenta;
@@ -76,6 +91,23 @@ public class Cuenta
         this.tipoCuenta = tipoCuenta;
     }
 
+    public String getCuentaPadre2() {
+        return cuentaPadre2;
+    }
+
+    public void setCuentaPadre2(String cuentaPadre2) {
+        this.cuentaPadre2 = cuentaPadre2;
+    }
+
+    public String getTipoCuenta2() {
+        return tipoCuenta2;
+    }
+
+    public void setTipoCuenta2(String tipoCuenta2) {
+        this.tipoCuenta2 = tipoCuenta2;
+    }
+
+    
     
     
 }

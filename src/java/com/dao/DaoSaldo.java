@@ -82,7 +82,10 @@ public class DaoSaldo extends Conexion
         ResultSet res=null;
         try {
             this.conectar();
-            String sql="select * from saldo";
+            String sql="select s.idSaldo, s.anio,  s.saldoInicial, s.saldoActual, s.saldoFinal, "
+                    + "c.descripcion, s.idPeriodo "
+                    + "from saldo as s "
+                    + "inner join cuenta as c on c.idCuenta=s.idCuenta";
             PreparedStatement pre=this.getCon().prepareCall(sql);
             res = pre.executeQuery();
             while (res.next()){
@@ -92,7 +95,7 @@ public class DaoSaldo extends Conexion
                 sa.setSaldoInicial(res.getDouble("saldoInicial"));
                 sa.setSaldoActual(res.getDouble("saldoActual"));
                 sa.setSaldoFinal(res.getDouble("saldoFinal"));
-                sa.setCuenta(res.getInt("idCuenta"));
+                sa.setCuenta2(res.getString("descripcion"));
                 sa.setPeriodo(res.getInt("idPeriodo"));
                 saldos.add(sa);
             }

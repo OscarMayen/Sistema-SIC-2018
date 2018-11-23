@@ -21,22 +21,23 @@ public class DaoCuenta extends Conexion
         ResultSet res=null;
         try {
             this.conectar();
-           /*String sql="select cu.idCuenta, cu.codigo, cu.descripcion, "
-                    + "c.cuentaPadre, tc.idTipoCuenta "
+           String sql="select cu.idCuenta, cu.codigo, cu.descripcion, "
+                    + "c.descripcion as cuentaPadre, tc.nombre as tipoCuenta "
                     + "from cuenta as cu "
-                    + "inner join tipocuenta as tc on tc.idTipoCuenta = cu.tipoCuenta "
-                   + "inner join cuenta as c on c.idCuenta = cu.cuentaPadre ";*/
+                    + "left  join tipocuenta as tc on tc.idTipoCuenta = cu.tipoCuenta "
+                   + "left  join cuenta as c on c.idCuenta = cu.cuentaPadre ";
             
-           String sql= "SELECT * FROM cuenta";
-            PreparedStatement pre=this.getCon().prepareCall(sql);
-            res = pre.executeQuery();
-            while (res.next()){
+          // String sql= "select * from cuenta ";
+           PreparedStatement pre=this.getCon().prepareCall(sql);
+           res = pre.executeQuery();
+           while (res.next())
+           {
                 Cuenta cu = new Cuenta();
                 cu.setIdCuenta(res.getInt("idCuenta"));
                 cu.setCodigo(res.getString("codigo"));
                 cu.setDescripcion(res.getString("descripcion"));
-                cu.setCuentaPadre(res.getInt("cuentaPadre"));
-                cu.setTipoCuenta(res.getInt("tipoCuenta"));
+                cu.setCuentaPadre2(res.getString("cuentaPadre"));
+                cu.setTipoCuenta2(res.getString("tipoCuenta"));
                 cuentas.add(cu);
              }
             
