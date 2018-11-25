@@ -106,5 +106,23 @@ public class DaoComprobante extends Conexion
          return SqlSate;
      }
     
+    public int recuperarUltimo() throws Exception{
+        
+        int idR=0;
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="select Max(idComprobante) from comprobante;";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            res = pre.executeQuery();
+            if(res.next()){
+               idR=res.getInt(1);
+            }
+            
+        } catch (Exception e) {
+        }
+     return idR;   
+    }
+    
     
 }

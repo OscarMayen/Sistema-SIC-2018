@@ -23,8 +23,8 @@ import javax.faces.context.FacesContext;
 public class CuentaBean implements Serializable {
 
     private Cuenta cu;
-    private ArrayList<Cuenta> listaCuentas; 
-    
+    private ArrayList<Cuenta> listaCuentas;
+
     public CuentaBean() {
     }
 
@@ -43,44 +43,66 @@ public class CuentaBean implements Serializable {
     public void setListaCuentas(ArrayList<Cuenta> listaCuentas) {
         this.listaCuentas = listaCuentas;
     }
-    
-    public void prepararNuevoCuenta(){
+
+    public void prepararNuevoCuenta() {
         cu = new Cuenta();
     }
-    
-    
-    
-    public void listarCuentas() throws Exception
-    {
+
+    public void listarCuentas() throws Exception {
         DaoCuenta daoC;
-        
+
         daoC = new DaoCuenta();
         this.listaCuentas = daoC.listarCuentas();
         this.cu = new Cuenta();
-        
+
     }
-    
-    public void insertarCuenta() throws Exception{
+
+    public void insertarCuenta() throws Exception {
         DaoCuenta daoCu;
-        
+
         daoCu = new DaoCuenta();
         daoCu.insertarCuentas(this.cu);
-        
+
         listarCuentas();
         this.cu = new Cuenta();
-        
+
         //mostrando menaje
         FacesContext context = FacesContext.getCurrentInstance();
-        
-        context.addMessage(null, new FacesMessage("Exito","Cuenta insertada correctamente"));
+
+        context.addMessage(null, new FacesMessage("Exito", "Cuenta insertada correctamente"));
     }
-    
-    public void eliminar() throws Exception{
+
+    public void eliminar() throws Exception {
         DaoCuenta daoCu = new DaoCuenta();
         daoCu.eliminarCuenta(this.cu);
-        this.cu  = new Cuenta();
+        this.cu = new Cuenta();
         listarCuentas();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Cuenta eliminado correctamente"));
     }
-    
+
+    public void seleccionar(Cuenta cuent) {
+        DaoCuenta daoCu = new DaoCuenta();
+        Cuenta cuVar;
+        try {
+            cuVar = daoCu.leerId(cuent);
+
+            if (cuVar != null) {
+                this.cu = cuVar;
+            }
+
+        } catch (Exception e) {
+        }
+    }
+
+    public void modificar() {
+        DaoCuenta daoCu = new DaoCuenta();
+        try {
+            daoCu.modificarCuenta(this.cu);
+            this.listarCuentas();
+            this.cu = new Cuenta();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Cuenta modificada correctamente"));
+        } catch (Exception e) {
+        }
+    }
+
 }

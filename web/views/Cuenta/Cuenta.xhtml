@@ -51,12 +51,26 @@
                             <p:outputLabel value="#{cu.tipoCuenta2}"/>
                         </p:column>
 
+                        <p:column headerText="Modificar">
+                            <p:commandButton value="Modificar" actionListener="#{cuentaBean.seleccionar(cu)}" 
+                                             oncomplete="PF('wdlgDatos').show();" 
+                                             update=":dlgDatos" 
+                                             immediate="true"/>
+                        </p:column>
 
-                        <p:column headerText="Eliminar" >
-                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarCuenta').show();"
-                                             update=":formEliminarCuenta">
-                                <f:setPropertyActionListener target="#{cuentaBean.cu}" value="#{cu}"/>
+                        <p:column headerText="Eliminar">
+
+                            <p:commandButton value="Eliminar" actionListener="#{cuentaBean.eliminar()}" update="datos" immediate="true">
+                                <p:confirm header="Confirmation" message="¿Desea eliminar la cuenta?" icon="ui-icon-alert" />
                             </p:commandButton>
+
+
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+
                         </p:column>
 
                     </p:dataTable>
@@ -108,20 +122,48 @@
                 </h:form>
 
 
-                <h:form id="formEliminarCuenta">
-                    <p:dialog id="digEliminarCuenta" widgetVar="dialogEliminarCuenta" resizable="false" showEffect="explode"
-                              hideEffect="explode" modal="true">
+                <p:dialog header="Cuentas" widgetVar="wdlgDatos" id="dlgDatos">
+                    <h:form>                
+                        <h:panelGrid columns="3" cellpadding="5" >
 
-                        <h:outputText value=" ¿Desea eliminar la cuenta? "/>
-                        <p:commandButton value="Si" actionListener="#{cuentaBean.eliminar()}"
-                                         update=":formulario:datos"  
-                                         oncomplete="PF('dialogEliminarCuenta').hide();"/>
+                            <p:outputLabel for="codigo" value="Codigo"/>
+                            <p:inputText id="codigo" value="#{cuentaBean.cu.codigo}" required="true"/>
+                            <p:message for="codigo"/>
 
-                        <p:commandButton value="No"
-                                         oncomplete="PF('dialogEliminarCuenta').hide();"/>
-                    </p:dialog>
+                            <p:outputLabel for="nombre" value="Nombre"/>
+                            <p:inputText id="nombre" value="#{cuentaBean.cu.descripcion}" required="true"/>
+                            <p:message for="codigo"/>
 
-                </h:form>
+                            <p:outputLabel value="Cuenta Padre:  " for="cuentaP"/>
+                            <p:selectOneMenu id="cuentaP" value="#{cuentaBean.cu.cuentaPadre}">
+                                <f:selectItems value="#{cuentaBean.listaCuentas}" var="c" itemValue="#{c.idCuenta}" 
+                                               itemLabel="#{c.descripcion}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:message for='cuentaP'/>
+
+                            <p:outputLabel value="Tipo de Cuenta:  " for="tipoC"/>
+                            <p:selectOneMenu id="tipoC" value="#{cuentaBean.cu.tipoCuenta}" required="true">
+                                <f:selectItems value="#{tipoCuentaBean.listaTipoC}" var="tc" itemValue="#{tc.id}" 
+                                               itemLabel="#{tc.nombre}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:message for='tipoC'/>
+
+
+                            <h:panelGroup>
+                                <p:commandButton value="Modificar" actionListener="#{cuentaBean.modificar()}" 
+                                                 update=":formulario:datos"
+                                                 oncomplete="PF('wdlgDatos').hide();">
+                                    <p:confirm header="Confirmation" message="¿Esta seguro de modificar la cuenta?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+
+
 
 
 

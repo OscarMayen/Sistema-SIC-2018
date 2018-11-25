@@ -4,6 +4,7 @@ package com.dao;
 import com.conexion.Conexion;
 import com.modelo.Cuenta;
 import com.modelo.TipoCuenta;
+import com.sun.xml.ws.security.opt.impl.util.SOAPUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -68,28 +69,26 @@ public class DaoCuenta extends Conexion
         
     }
     
-     public void modificarCuenta(Cuenta tc) throws Exception{
+    public void modificarCuenta(Cuenta cu) throws Exception {
+
         try {
             this.conectar();
-            String sql="update cuenta set codigo=?, descripcion=?,  "
-                    + "cuentaPadre=?, tipoCuenta=?"
-                    + "where idCuenta=?";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setString(1,tc.getCodigo());
-            pre.setString(2,tc.getDescripcion());
-            pre.setInt(3,tc.getCuentaPadre());
-            pre.setInt(4,tc.getTipoCuenta());
-            pre.setInt(5,tc.getIdCuenta());
+           String sql = "update cuenta set codigo=?, descripcion=?, cuentaPadre=?, tipoCuenta=? "
+                        + "where idCuenta=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setString(1, cu.getCodigo());
+            pre.setString(2, cu.getDescripcion());
+            pre.setInt(3, cu.getCuentaPadre());
+            pre.setInt(4, cu.getTipoCuenta());
+            pre.setInt(5, cu.getIdCuenta());
             pre.executeUpdate();
-            
         } catch (Exception e) {
             throw e;
-        }
-        finally{
+        } finally {
             this.desconectar();
-            
         }
     }
+
     
      
      public void eliminarCuenta(Cuenta cu) throws Exception 
@@ -102,7 +101,8 @@ public class DaoCuenta extends Conexion
         try 
         {
             this.conectar();
-            sql = "delete from cuenta where idCuenta=?;";
+            sql = "delete from cuenta "
+                 + "where idCuenta=?;";
             pstmt = this.getCon().prepareStatement(sql);
             pstmt.setInt(1, cu.getIdCuenta());
             pstmt.executeUpdate();
@@ -116,6 +116,48 @@ public class DaoCuenta extends Conexion
             desconectar();
         }
 
+    }
+     
+     public Cuenta leerId(Cuenta cuen) throws Exception 
+    {
+        
+        PreparedStatement pr;
+        ResultSet rs;
+        Cuenta ct = null;
+        
+        try {   
+                this.conectar();
+                System.out.println("codigo Buscado: " + cuen.getIdCuenta());
+                String sql="select cu.idCuenta, cu.codigo, cu.descripcion, "
+                         + "cu.cuentaPadre, cu.tipoCuenta "
+                         + "from cuenta as cu "
+                    + "where cu.idCuenta=?;";
+                
+                PreparedStatement pre = this.getCon().prepareStatement(sql);
+                pre.setInt(1, cuen.getIdCuenta());
+                rs = pre.executeQuery();
+                
+                while(rs.next())
+                {
+                    ct = new Cuenta();
+                    ct.setIdCuenta(rs.getInt("idCuenta"));
+                    ct.setCodigo(rs.getString("codigo"));
+                    ct.setDescripcion(rs.getString("descripcion"));
+                    ct.setCuentaPadre(rs.getInt("cuentaPadre"));
+                    ct.setTipoCuenta(rs.getInt("tipoCuenta"));
+                }   
+               
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+          this.desconectar();
+        }
+        return ct;
+        
     }
     
 }
