@@ -159,5 +159,48 @@ public class DaoCuenta extends Conexion
         return ct;
         
     }
+     
+    public Cuenta cuentaPorCodigo(String codigo) throws Exception 
+    {
+        
+        PreparedStatement pr;
+        ResultSet rs;
+        Cuenta ct = null;
+        
+        try {   
+                this.conectar();
+                System.out.println("codigo Buscado: " + codigo);
+                String sql="select cu.idCuenta, cu.codigo, cu.descripcion, "
+                         + "cu.cuentaPadre, cu.tipoCuenta "
+                         + "from cuenta as cu "
+                    + "where cu.codigo=?;";
+                
+                PreparedStatement pre = this.getCon().prepareStatement(sql);
+                pre.setString(1, codigo);
+                rs = pre.executeQuery();
+                ct = new Cuenta();
+                while(rs.next())
+                {
+                    System.out.println(">>>>>");
+                    ct.setIdCuenta(rs.getInt("idCuenta"));
+                    ct.setCodigo(rs.getString("codigo"));
+                    ct.setDescripcion(rs.getString("descripcion"));
+                    ct.setCuentaPadre(rs.getInt("cuentaPadre"));
+                    ct.setTipoCuenta(rs.getInt("tipoCuenta"));
+                }   
+               
+        } 
+        catch (Exception e) 
+        {
+            throw new Exception("Error cuentaPorCodigo: " + e.getMessage());
+        }
+        finally
+        {
+          this.desconectar();
+        }
+        return ct;
+        
+    }
+     
     
 }

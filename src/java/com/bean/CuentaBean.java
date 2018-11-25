@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -23,6 +24,7 @@ import javax.faces.context.FacesContext;
 public class CuentaBean implements Serializable {
 
     private Cuenta cu;
+    private String descripcion;
     private ArrayList<Cuenta> listaCuentas;
 
     public CuentaBean() {
@@ -43,6 +45,16 @@ public class CuentaBean implements Serializable {
     public void setListaCuentas(ArrayList<Cuenta> listaCuentas) {
         this.listaCuentas = listaCuentas;
     }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    
 
     public void prepararNuevoCuenta() {
         cu = new Cuenta();
@@ -66,7 +78,7 @@ public class CuentaBean implements Serializable {
         listarCuentas();
         this.cu = new Cuenta();
 
-        //mostrando menaje
+        //mostrando mensaje
         FacesContext context = FacesContext.getCurrentInstance();
 
         context.addMessage(null, new FacesMessage("Exito", "Cuenta insertada correctamente"));
@@ -104,5 +116,7 @@ public class CuentaBean implements Serializable {
         } catch (Exception e) {
         }
     }
+    
+
 
 }

@@ -49,12 +49,17 @@
                                                  columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
 
-                                        <p:outputLabel for="cta" value="Cuneta "/>
-                                        <p:inputText id="cta"/>
-
+                                        <p:outputLabel for="cta" value="Cuneta " />
+                                        <p:inputText id="cta" valueChangeListener="#{comprobanteBean.ctaListener}"> 
+                                            <p:ajax partialSubmit="true" process="@this" immediate="true" update="desc"/>
+                                            
+                                        </p:inputText>
+                                        
                                         <p:outputLabel for="cta" value="Descripcion "/>
-                                        <p:inputText id="desc"/>
-
+                                        <p:inputText id="desc" value="#{cuentaBean.descripcion}" >
+                                        <p:ajax/>
+                                        </p:inputText>
+                                        
                                         <p:outputLabel for="mto" value="Monto "/>
                                         <p:inputText id="mto"/>
 
