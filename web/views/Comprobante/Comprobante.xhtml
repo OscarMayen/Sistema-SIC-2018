@@ -29,7 +29,7 @@
                                         <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
                                         <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
                                                     locale="es"  pattern="yyyy/MM/dd" required="true"/>
-                                        
+
                                         <p:outputLabel for="usuario" value="Usuario "/>
                                         <p:inputText id="usuario" value="#{comprobanteBean.com.usuario}" required="true"/>
 
@@ -52,20 +52,27 @@
                                         <p:outputLabel for="cta" value="Cuenta " />
                                         <p:inputText id="cta" valueChangeListener="#{comprobanteBean.ctaListener}"> 
                                             <p:ajax />
-                                            
+                                            <p:commandButton id="btnBusqCta" icon="ui-icon-search" actionListener="#{comprobanteBean.btnBusqCtaListener()}"
+                                                             process="@this" update="@form"/>
                                         </p:inputText>
-                                        
+
+
                                         <p:outputLabel for="desc" value="Descripcion "/>
                                         <p:inputText id="desc" value="#{cuentaBean.descripcion}
                                                      " >
-                                        <p:ajax/>
+                                            <p:ajax/>
                                         </p:inputText>
-                                        
-                                        <p:outputLabel for="mto" value="Monto "/>
-                                        <p:inputText id="mto"/>
 
-                                        <p:outputLabel for="dbe" value="Debe"/>
-                                        <p:inputText id="dbe"/>
+                                        <p:outputLabel for="mto" value="Monto "/>
+                                        <p:spinner id="mto"  prefix="$" min="0" required="true" stepFactor="0.01"/>
+
+
+                                        <p:outputLabel for="accion" value="Accion"/>
+                                        <p:selectOneRadio id="accion" >
+                                            <f:selectItem itemLabel="Debe" itemValue="Debe" />
+                                            <f:selectItem itemLabel="Haber" itemValue="Debe" />
+                                        </p:selectOneRadio>
+                                       
                                     </p:panelGrid>
                                 </p:panel>
 
@@ -81,9 +88,45 @@
                                         </p:column>
                                     </p:dataTable>
                                 </p:panel>
+
                             </p:tab>
                         </p:tabView>
                     </div>
+
+                    <p:dialog id="dlgCta" header="Buscar Cuenta" widgetVar="dlgCta" modal="true"
+                              width="30%" closeOnEscape="true">
+                        <p:menubar>
+                            <p:menuitem id="itemBuscar" value="buscar" icon="ui-icon-search" actionListener="#{comprobanteBean.itemBuscarListener()}"/>
+                            <p:menuitem id="itemLimpiar" value="Copiar" icon="ui-icon-pencil"/>
+                        </p:menubar>
+                        <p:panel id="pnlBusCta" style="margin-top:5px">
+                            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank ui-fluid" 
+                                         columnClasses="ui-grid-col-4,ui-grid-col-8">
+                                <p:outputLabel for="ctaBusq" value="Codigo"/>
+                                <p:inputText id="ctaBusq" value="" /> 
+                                <p:outputLabel for="descBusc" value="Descripcion"/>
+                                <p:inputText id="descBusc" value=""/> 
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel id="pnlTable" style="margin-top:5px">
+                            <p:dataTable id="tblDesc" var="cta" value="#{comprobanteBean.lstCta}"
+                                         rows="10" paginator="true"
+                                         selectionMode="single" selection="#{comprobanteBean.ctaSelect}" rowKey="#{cta.codigo}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                                         {NextPageLink} {LastPageLink}">
+                                <p:ajax event="rowSelect" listener="#{comprobanteBean.onSelecttblCta}" />
+                                <p:column headerText="Codigo">
+                                    <h:outputText value="#{cta.codigo}" />
+                                </p:column>
+
+                                <p:column headerText="Descripcion">
+                                    <h:outputText value="#{cta.descripcion}"/>
+                                </p:column>
+
+
+                            </p:dataTable>
+                        </p:panel>
+                    </p:dialog>
                 </h:form>
             </ui:define>
         </ui:composition>
