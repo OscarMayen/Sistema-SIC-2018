@@ -96,22 +96,18 @@ public class ComprobanteBean {
             
         }
         DaoCuenta daoCu = new DaoCuenta();
-        System.out.println("Datoooooooooooo: " + vce.getNewValue());
-
+       
         String cod = String.valueOf(vce.getNewValue().toString());
         Cuenta cuent = new Cuenta();
 
         try {
-            cuent = daoCu.cuentaPorCodigo(cod);
-            System.out.println("----------------");
-            System.out.println(cuent.getCodigo());
-            System.out.println("----------------");
+            
             if (cuent != null) {
                 descripcion = cuent.getDescripcion();
                 System.out.println(cuent.getDescripcion());
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage("Error", "N0 cuenta no "));
+                        new FacesMessage("Error", "# cuenta no existe"));
             }
 
         } catch (Exception ex) {

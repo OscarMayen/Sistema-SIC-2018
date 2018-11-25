@@ -181,7 +181,6 @@ public class DaoCuenta extends Conexion
                 ct = new Cuenta();
                 while(rs.next())
                 {
-                    System.out.println(">>>>>");
                     ct.setIdCuenta(rs.getInt("idCuenta"));
                     ct.setCodigo(rs.getString("codigo"));
                     ct.setDescripcion(rs.getString("descripcion"));

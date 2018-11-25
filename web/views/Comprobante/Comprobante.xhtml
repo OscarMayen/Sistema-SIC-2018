@@ -16,10 +16,10 @@
                     <p:growl id="growl" showDetail="true" autoUpdate="true"/>
                     <div class="ui-fluid">
                         <p:tabView id="tab">
-                            <p:tab title="Compronamte">
+                            <p:tab title="Comprobante" >
                                 <p:menubar>
-                                    <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" update="@form"/>
-                                    <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk" 
+                                    <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" update="@form" style="color: white; font-weight: bold"/>
+                                    <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk " style="color: white; font-weight: bold"
                                                 update="@form"/>
                                 </p:menubar>
                                 <p:panel id="pnlEnca" style="margin-top:5px">
@@ -49,14 +49,15 @@
                                                  columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
 
-                                        <p:outputLabel for="cta" value="Cuneta " />
+                                        <p:outputLabel for="cta" value="Cuenta " />
                                         <p:inputText id="cta" valueChangeListener="#{comprobanteBean.ctaListener}"> 
-                                            <p:ajax partialSubmit="true" process="@this" immediate="true" update="desc"/>
+                                            <p:ajax />
                                             
                                         </p:inputText>
                                         
-                                        <p:outputLabel for="cta" value="Descripcion "/>
-                                        <p:inputText id="desc" value="#{cuentaBean.descripcion}" >
+                                        <p:outputLabel for="desc" value="Descripcion "/>
+                                        <p:inputText id="desc" value="#{cuentaBean.descripcion}
+                                                     " >
                                         <p:ajax/>
                                         </p:inputText>
                                         
