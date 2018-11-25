@@ -14,44 +14,72 @@
 
                 <h:form id="formNuevoComprobante">
                     <p:growl id="growl" showDetail="true" autoUpdate="true"/>
-                   
-                        <p:fieldset legend="Nuevo Comprobante">
-                            <p:panelGrid columns="3" >
+                    <div class="ui-fluid">
+                        <p:tabView id="tab">
+                            <p:tab title="Compronamte">
+                                <p:menubar>
+                                    <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" update="@form"/>
+                                    <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk" 
+                                                update="@form"/>
+                                </p:menubar>
+                                <p:panel id="pnlEnca" style="margin-top:5px">
+                                    <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" 
+                                                 columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
-                                <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
-                                <p:calendar id="fechaRealizacion" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
-                                            locale="es"  pattern="yyyy/MM/dd" required="true"/>
-                                <p:message for="fechaRealizacion"/>
+                                        <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
+                                        <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
+                                                    locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                                        
+                                        <p:outputLabel for="usuario" value="Usuario "/>
+                                        <p:inputText id="usuario" value="#{comprobanteBean.com.usuario}" required="true"/>
 
-                                <p:outputLabel for="usuario" value="Usuario "/>
-                                <p:inputText id="usuario" value="#{comprobanteBean.com.usuario}" required="true"/>
-                                <p:message for="usuario" />
 
-                                <p:outputLabel for="descripcion" value="Descripcion "/>
-                                <p:inputTextarea id="descripcion" rows="5" cols="30" maxlength="40" counterTemplate="{0} characters remaining." 
-                                                 autoResize="false" value="#{comprobanteBean.com.descripcion}" required="true" />
-                                <p:message for="descripcion"/>
+                                        <p:outputLabel for="descripcion" value="Descripcion "/>
+                                        <p:inputText id="descripcion" value="#{comprobanteBean.com.descripcion}" required="true"/>
 
-                                <p:outputLabel for="fechaContable" value="Fecha Contable"/>
-                                <p:calendar id="fechaContable" value="#{comprobanteBean.com.fechaContable}"  placeholder="yyyy/MM/dd" 
-                                            locale="es"  pattern="yyyy/MM/dd" required="true"/>
-                                <p:message for="fechaContable"/>
-                                
-                                
 
-                            </p:panelGrid>
+                                        <p:outputLabel for="fechaContable" value="Fecha Contable"/>
+                                        <p:calendar id="fechaContable" value="#{comprobanteBean.com.fechaContable}"  placeholder="yyyy/MM/dd" 
+                                                    locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                                    </p:panelGrid>
+                                </p:panel>
 
-                           
-                        </p:fieldset>
-                   
+                                <p:panel id="pnlDeta" style="width: 100%; margin-top:5px;">
+                                    <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" style="width: 100%" 
+                                                 columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
+
+                                        <p:outputLabel for="cta" value="Cuneta "/>
+                                        <p:inputText id="cta"/>
+
+                                        <p:outputLabel for="cta" value="Descripcion "/>
+                                        <p:inputText id="desc"/>
+
+                                        <p:outputLabel for="mto" value="Monto "/>
+                                        <p:inputText id="mto"/>
+
+                                        <p:outputLabel for="dbe" value="Debe"/>
+                                        <p:inputText id="dbe"/>
+                                    </p:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="TableDetalle" style="width: 100%; margin-top:5px;">
+                                    <p:dataTable id="tblDetalle" var="row" value=""
+                                                 widgetVar="tblDetalle" 
+                                                 rowIndexVar="index">
+                                        <p:column headerText="No.">
+                                            <h:outputText value="#{index + 1}"/>
+                                        </p:column>
+                                        <p:column headerText="Valores">
+                                            <h:outputText value="aaaaaa"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
                 </h:form>
-                
-                
-
             </ui:define>
-
         </ui:composition>
-
     </body>
 </html>
