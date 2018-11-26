@@ -8,6 +8,7 @@ import com.sun.xml.ws.security.opt.impl.util.SOAPUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -198,6 +199,64 @@ public class DaoCuenta extends Conexion
           this.desconectar();
         }
         return ct;
+        
+    }
+    
+    public List < Cuenta > buscarCuenta(String codigo, String desc) throws Exception {
+        
+        PreparedStatement pr;
+        ResultSet rs;
+        Cuenta ct = null;
+        List < Cuenta > lst = new ArrayList();
+        
+        try {   
+                this.conectar();
+                StringBuilder str = new StringBuilder();
+                
+                str.append("select cu.idCuenta, cu.codigo, cu.descripcion, ");
+                str.append("cu.cuentaPadre, cu.tipoCuenta ");
+                str.append("from cuenta as cu where 1 =1 ");
+                if (codigo != null && !codigo.equals("")) {
+                    str.append(" and cu.codigo= ?");
+                }
+                if (desc != null && !desc.equals("")) {
+                     str.append(" and cu.descripcion like ?");
+                }
+                
+                PreparedStatement pre = this.getCon().prepareStatement(str.toString());
+                int param = 0;
+                if (codigo != null && !codigo.equals("")) {
+                    param ++;
+                    pre.setString(param, codigo);
+                }
+                if (desc != null && !desc.equals("")) {
+                    param ++;
+                    pre.setString(param, "%" + desc + "%");
+                }
+                rs = pre.executeQuery();
+                
+                
+                while(rs.next())
+                {
+                    ct = new Cuenta();
+                    ct.setIdCuenta(rs.getInt("idCuenta"));
+                    ct.setCodigo(rs.getString("codigo"));
+                    ct.setDescripcion(rs.getString("descripcion"));
+                    ct.setCuentaPadre(rs.getInt("cuentaPadre"));
+                    ct.setTipoCuenta(rs.getInt("tipoCuenta"));
+                    lst.add(ct);
+                }   
+               
+        } 
+        catch (Exception e) 
+        {
+            throw new Exception("Error cuentaPorCodigo: " + e.getMessage());
+        }
+        finally
+        {
+          this.desconectar();
+        }
+        return lst;
         
     }
      
