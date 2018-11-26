@@ -79,7 +79,10 @@ public class DaoComprobanteDetalle extends Conexion
         ResultSet res=null;
         try {
             this.conectar();
-            String sql="select * from comprobanteDetalle";
+            String sql="select cd.idComprobanteDetalle, cd.monto, cd.accion, com.descripcion, c.descripcion as cuenta "
+                    + "from comprobanteDetalle as cd "
+                    + "inner join comprobante as com on com.idComprobante=cd.idComprobante "
+                    + "inner join cuenta as c on c.idCuenta=cd.idCuenta; ";
             PreparedStatement pre=this.getCon().prepareCall(sql);
             res = pre.executeQuery();
             while (res.next()){
@@ -87,8 +90,8 @@ public class DaoComprobanteDetalle extends Conexion
                 comDe.setIdComprobanteDetalle(res.getInt("idComprobanteDetalle"));
                 comDe.setMonto(res.getDouble("monto"));
                 comDe.setAccion(res.getString("accion"));
-                comDe.setIdComprobante(res.getInt("idComprobante"));
-                comDe.setIdCuenta(res.getInt("idCuenta"));
+                comDe.setIdComprobante2(res.getString("descripcion"));
+                comDe.setIdCuenta2(res.getString("cuenta"));
                 comprobanteDetalles.add(comDe);
             }
             

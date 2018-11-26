@@ -1,6 +1,7 @@
 package com.bean;
 
 import com.dao.DaoComprobante;
+import com.dao.DaoComprobanteDetalle;
 import com.dao.DaoCuenta;
 import com.modelo.Comprobante;
 import com.modelo.ComprobanteDetalle;
@@ -27,6 +28,7 @@ import org.primefaces.event.SelectEvent;
 public class ComprobanteBean implements Serializable {
 
     private Comprobante com = new Comprobante(); 
+    private ComprobanteDetalle comDe = new ComprobanteDetalle(); 
     private ArrayList<Comprobante> listaComprobantes;
     private String descripcion;
     private String ctaDesc;
@@ -111,6 +113,15 @@ public class ComprobanteBean implements Serializable {
     public void setCtaBuscq(String ctaBuscq) {
         this.ctaBuscq = ctaBuscq;
     }
+
+    public ComprobanteDetalle getComDe() {
+        return comDe;
+    }
+
+    public void setComDe(ComprobanteDetalle comDe) {
+        this.comDe = comDe;
+    }
+    
     
     
 
@@ -192,8 +203,6 @@ public class ComprobanteBean implements Serializable {
         }
         
         
-        
-        
     }
     
     public void btnAddListener() {
@@ -225,5 +234,19 @@ public class ComprobanteBean implements Serializable {
         }
         RequestContext.getCurrentInstance().execute("PF('dlgCta').hide();");
     }
+    
+    public void listarComprobanteDetalle() throws Exception {
+        DaoComprobanteDetalle daoCD;
+        daoCD = new DaoComprobanteDetalle();
+        System.out.println("////////////////");
+        this.lstDetalle = daoCD.mostrarComprobantesDetalle();
+         System.out.println("////////////////");
+        this.comDe = new ComprobanteDetalle();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Exito", "Transaccion mostrados correctamente"));
+
+    }
+    
+    
 
 }

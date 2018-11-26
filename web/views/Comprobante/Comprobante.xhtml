@@ -12,6 +12,9 @@
 
             <ui:define name="content">
 
+                <!--Adquiriendo tipoCuentas al cargar la pagina-->
+                #{comprobanteBean.listarComprobanteDetalle()}
+                
                 <h:form id="formNuevoComprobante">
                     <p:growl id="growl" showDetail="true" autoUpdate="true"/>
                     <div class="ui-fluid">
@@ -81,15 +84,33 @@
                                 </p:panel>
 
                                 <p:panel id="TableDetalle" style="width: 100%; margin-top:5px;">
-                                    <p:dataTable id="tblDetalle" var="row" value="#{comprobanteBean.lstDetalle}" 
+                                    <p:dataTable id="tblDetalle" value="#{comprobanteBean.lstDetalle}" var="row" 
                                                  widgetVar="tblDetalle" 
                                                  rowIndexVar="index">
                                         <p:column headerText="No.">
                                             <h:outputText value="#{index + 1}"/>
                                         </p:column>
-                                        <p:column headerText="Valores">
-                                            <h:outputText value="aaaaaa"/>
+                                        
+                                        <p:column headerText="corre">
+                                            <h:outputText value="#{row.idCuenta2}"/>
                                         </p:column>
+                                        
+                                        <p:column headerText="Monto">
+                                            <h:outputText value="#{row.monto}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Accion">
+                                            <h:outputText value="#{row.accion}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Cuenta">
+                                            <h:outputText value="#{row.idComprobante2}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Cuenta">
+                                            <h:outputText value="#{row.idCuenta2}"/>
+                                        </p:column>
+                                        
                                     </p:dataTable>
                                 </p:panel>
 

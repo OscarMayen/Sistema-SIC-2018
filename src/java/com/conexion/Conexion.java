@@ -34,7 +34,7 @@ public class Conexion
         try 
         {
            Class.forName("com.mysql.jdbc.Driver"); 
-           con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sic2018?user=root&password=");
+           con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sic2018?user=root&password=grupo10");
           
         } 
         
