@@ -28,6 +28,9 @@
                                     <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" 
                                                  columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
+                                        <p:outputLabel for="idcompr" value="Comrobante "/>
+                                        <p:inputText id="idcompr"/>
+                                        
                                         <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
                                         <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" placeholder="yyyy/MM/dd" 
                                                     locale="es"  pattern="yyyy/MM/dd" required="true"/>
@@ -55,7 +58,7 @@
                                         <p:inputText id="cta" value="#{comprobanteBean.ctaDesc}"> 
                                             <p:ajax event="change" process="@this" partialSubmit="true" update="desc" listener="#{comprobanteBean.ctaValueChangeListener()}" />
                                         </p:inputText>
-                                        <p:commandButton id="btnBusqCta" icon="ui-icon-search" actionListener="#{comprobanteBean.itemBuscarListener()}" />
+                                        <p:commandButton id="btnBusqCta" icon="ui-icon-search" actionListener="#{comprobanteBean.btnBusqCtaListener()}" />
 
 
                                         <p:outputLabel for="desc" value="Descripcion "/>
@@ -97,25 +100,25 @@
                     <p:dialog id="dlgCta" header="Buscar Cuenta" widgetVar="dlgCta" modal="true"
                               width="30%" closeOnEscape="true">
                         <p:menubar>
-                            <p:menuitem id="itemBuscar" value="buscar" icon="ui-icon-search" actionListener="#{comprobanteBean.itemBuscarListener()}"/>
+                            <p:menuitem id="itemBuscar" value="buscar" icon="ui-icon-search" actionListener="#{comprobanteBean.itemBuscarListener()}" update="tblCtaBusq"/>
                             <p:menuitem id="itemLimpiar" value="Copiar" icon="ui-icon-pencil"/>
                         </p:menubar>
                         <p:panel id="pnlBusCta" style="margin-top:5px">
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank ui-fluid" 
                                          columnClasses="ui-grid-col-4,ui-grid-col-8">
                                 <p:outputLabel for="ctaBusq" value="Codigo"/>
-                                <p:inputText id="ctaBusq"/> 
+                                <p:inputText id="ctaBusq" value="#{comprobanteBean.ctaBuscq}"/> 
                                 <p:outputLabel for="descBusc" value="Descripcion"/>
-                                <p:inputText id="descBusc" /> 
+                                <p:inputText id="descBusc" value="#{comprobanteBean.descBusq}" /> 
                             </p:panelGrid>
                         </p:panel>
                         <p:panel id="pnlTable" style="margin-top:5px">
-                            <p:dataTable id="tblDesc" var="cta" value="#{comprobanteBean.lstCta}"
+                            <p:dataTable id="tblCtaBusq" var="cta" value="#{comprobanteBean.lstCta}"
                                          rows="10" paginator="true"
                                          selectionMode="single" selection="#{comprobanteBean.ctaSelect}" rowKey="#{cta.codigo}"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
                                          {NextPageLink} {LastPageLink}">
-                                <p:ajax event="rowSelect" listener="#{comprobanteBean.onSelecttblCta}" />
+                                <p:ajax event="rowSelect" listener="#{comprobanteBean.onSelecttblCta}" update=":formNuevoComprobante:tab:cta :formNuevoComprobante:tab:desc"/>
                                 <p:column headerText="Codigo">
                                     <h:outputText value="#{cta.codigo}" />
                                 </p:column>
