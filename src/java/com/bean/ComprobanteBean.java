@@ -30,6 +30,8 @@ public class ComprobanteBean implements Serializable {
     private ArrayList<Comprobante> listaComprobantes;
     private String descripcion;
     private String ctaDesc;
+    private String descBusq;
+    private String ctaBuscq;
     private List < ComprobanteDetalle > lstDetalle = new ArrayList();
     
     private List < Cuenta > lstCta = new ArrayList();
@@ -92,6 +94,22 @@ public class ComprobanteBean implements Serializable {
 
     public void setLstDetalle(List<ComprobanteDetalle> lstDetalle) {
         this.lstDetalle = lstDetalle;
+    }
+
+    public String getDescBusq() {
+        return descBusq;
+    }
+
+    public void setDescBusq(String descBusq) {
+        this.descBusq = descBusq;
+    }
+
+    public String getCtaBuscq() {
+        return ctaBuscq;
+    }
+
+    public void setCtaBuscq(String ctaBuscq) {
+        this.ctaBuscq = ctaBuscq;
     }
     
     
@@ -159,11 +177,21 @@ public class ComprobanteBean implements Serializable {
     
     public void btnBusqCtaListener() {
         RequestContext.getCurrentInstance().execute("PF('dlgCta').show();");
-        
-         
     }
     
     public void itemBuscarListener() {
+        DaoCuenta daoCu = new DaoCuenta();
+        
+        try {
+            lstCta = daoCu.buscarCuenta(ctaBuscq, descBusq);
+        } catch (Exception ex) {
+            Logger.getLogger(ComprobanteBean.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error", "Error " + ex.getMessage()));
+        }
+        
+        
         
         
     }
@@ -178,6 +206,23 @@ public class ComprobanteBean implements Serializable {
     }
     
     public void onSelecttblCta(SelectEvent event) {
+        
+        if (event.getObject() == null) {
+           FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error", "Error al seleccionar "));
+            return;
+        }
+        try {
+            Cuenta ctaSel = (Cuenta) event.getObject();
+            descripcion = ctaSel.getDescripcion();
+            ctaDesc = ctaSel.getCodigo();
+        } catch (Exception ex) {
+            Logger.getLogger(ComprobanteBean.class
+                    .getName())
+                    .log(Level.SEVERE, null, ex);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error", "Error " + ex.getMessage()));
+        }
         RequestContext.getCurrentInstance().execute("PF('dlgCta').hide();");
     }
 
