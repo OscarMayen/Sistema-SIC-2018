@@ -22,49 +22,49 @@
                                     <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk " style="color: white; font-weight: bold"
                                                 update="@form"/>
                                 </p:menubar>
+                                <p:defaultCommand target="btnDefautl"/>
+                                <p:commandButton id="btnDefautl" process="@none" global="false" style="display:none;"/>
                                 <p:panel id="pnlEnca" style="margin-top:5px">
                                     <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" 
                                                  columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
                                         <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
-                                        <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" value="#{comprobanteBean.com.fecha}" placeholder="yyyy/MM/dd" 
+                                        <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" placeholder="yyyy/MM/dd" 
                                                     locale="es"  pattern="yyyy/MM/dd" required="true"/>
 
                                         <p:outputLabel for="usuario" value="Usuario "/>
-                                        <p:inputText id="usuario" value="#{comprobanteBean.com.usuario}" required="true"/>
+                                        <p:inputText id="usuario"  required="true"/>
 
 
                                         <p:outputLabel for="descripcion" value="Descripcion "/>
-                                        <p:inputText id="descripcion" value="#{comprobanteBean.com.descripcion}" required="true"/>
+                                        <p:inputText id="descripcion" required="true"/>
 
 
                                         <p:outputLabel for="fechaContable" value="Fecha Contable"/>
-                                        <p:calendar id="fechaContable" value="#{comprobanteBean.com.fechaContable}"  placeholder="yyyy/MM/dd" 
+                                        <p:calendar id="fechaContable"  placeholder="yyyy/MM/dd" 
                                                     locale="es"  pattern="yyyy/MM/dd" required="true"/>
                                     </p:panelGrid>
                                 </p:panel>
 
                                 <p:panel id="pnlDeta" style="width: 100%; margin-top:5px;">
-                                    <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" style="width: 100%" 
-                                                 columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
+                                    <p:panelGrid columns="10" styleClass="ui-panelgrid-blank" style="width: 100%" 
+                                                 columnClasses="ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
 
                                         <p:outputLabel for="cta" value="Cuenta " />
-                                        <p:inputText id="cta" valueChangeListener="#{comprobanteBean.ctaListener}"> 
-                                            <p:ajax />
-                                            <p:commandButton id="btnBusqCta" icon="ui-icon-search" actionListener="#{comprobanteBean.btnBusqCtaListener()}"
-                                                             process="@this" update="@form"/>
+                                        <p:inputText id="cta" value="#{comprobanteBean.ctaDesc}"> 
+                                            <p:ajax event="change" process="@this" partialSubmit="true" update="desc" listener="#{comprobanteBean.ctaValueChangeListener()}" />
                                         </p:inputText>
+                                        <p:commandButton id="btnBusqCta" icon="ui-icon-search" actionListener="#{comprobanteBean.itemBuscarListener()}" />
 
 
                                         <p:outputLabel for="desc" value="Descripcion "/>
-                                        <p:inputText id="desc" value="#{cuentaBean.descripcion}
-                                                     " >
+                                        <p:inputText id="desc" value="#{comprobanteBean.descripcion}" >
                                             <p:ajax/>
                                         </p:inputText>
 
                                         <p:outputLabel for="mto" value="Monto "/>
-                                        <p:spinner id="mto"  prefix="$" min="0" required="true" stepFactor="0.01"/>
+                                        <p:spinner id="mto"  prefix="$" min="0" stepFactor="0.01"/>
 
 
                                         <p:outputLabel for="accion" value="Accion"/>
@@ -73,11 +73,12 @@
                                             <f:selectItem itemLabel="Haber" itemValue="Debe" />
                                         </p:selectOneRadio>
                                        
+                                        <p:commandButton id="btnAdd" icon="ui-icon-circle-plus" action="#{comprobanteBean.btnAddListener()}" update="tblDetalle"/>
                                     </p:panelGrid>
                                 </p:panel>
 
                                 <p:panel id="TableDetalle" style="width: 100%; margin-top:5px;">
-                                    <p:dataTable id="tblDetalle" var="row" value=""
+                                    <p:dataTable id="tblDetalle" var="row" value="#{comprobanteBean.lstDetalle}" 
                                                  widgetVar="tblDetalle" 
                                                  rowIndexVar="index">
                                         <p:column headerText="No.">
@@ -103,9 +104,9 @@
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank ui-fluid" 
                                          columnClasses="ui-grid-col-4,ui-grid-col-8">
                                 <p:outputLabel for="ctaBusq" value="Codigo"/>
-                                <p:inputText id="ctaBusq" value="" /> 
+                                <p:inputText id="ctaBusq"/> 
                                 <p:outputLabel for="descBusc" value="Descripcion"/>
-                                <p:inputText id="descBusc" value=""/> 
+                                <p:inputText id="descBusc" /> 
                             </p:panelGrid>
                         </p:panel>
                         <p:panel id="pnlTable" style="margin-top:5px">

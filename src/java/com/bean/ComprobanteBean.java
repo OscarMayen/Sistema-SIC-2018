@@ -3,6 +3,7 @@ package com.bean;
 import com.dao.DaoComprobante;
 import com.dao.DaoCuenta;
 import com.modelo.Comprobante;
+import com.modelo.ComprobanteDetalle;
 import com.modelo.Cuenta;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,9 +26,11 @@ import org.primefaces.event.SelectEvent;
 @javax.faces.bean.ViewScoped
 public class ComprobanteBean implements Serializable {
 
-    private Comprobante com;
+    private Comprobante com = new Comprobante(); 
     private ArrayList<Comprobante> listaComprobantes;
     private String descripcion;
+    private String ctaDesc;
+    private List < ComprobanteDetalle > lstDetalle = new ArrayList();
     
     private List < Cuenta > lstCta = new ArrayList();
     private Cuenta ctaSelect = new Cuenta();
@@ -74,6 +77,22 @@ public class ComprobanteBean implements Serializable {
     public void setCtaSelect(Cuenta ctaSelect) {
         this.ctaSelect = ctaSelect;
     }
+
+    public String getCtaDesc() {
+        return ctaDesc;
+    }
+
+    public void setCtaDesc(String ctaDesc) {
+        this.ctaDesc = ctaDesc;
+    }
+
+    public List<ComprobanteDetalle> getLstDetalle() {
+        return lstDetalle;
+    }
+
+    public void setLstDetalle(List<ComprobanteDetalle> lstDetalle) {
+        this.lstDetalle = lstDetalle;
+    }
     
     
 
@@ -112,20 +131,14 @@ public class ComprobanteBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Comprobante eliminado correctamente"));
     }
 
-    public void ctaListener(ValueChangeEvent vce) {
+    public void ctaValueChangeListener() {
         
-        if (vce.getNewValue() == null) {
-            return;
-        }
-        if (vce.getNewValue().equals(vce.getOldValue())) {
-            
-        }
+   
         DaoCuenta daoCu = new DaoCuenta();
-       
-        String cod = String.valueOf(vce.getNewValue().toString());
         Cuenta cuent = new Cuenta();
 
         try {
+            cuent = daoCu.cuentaPorCodigo(ctaDesc);
             
             if (cuent != null) {
                 descripcion = cuent.getDescripcion();
@@ -152,6 +165,15 @@ public class ComprobanteBean implements Serializable {
     
     public void itemBuscarListener() {
         
+        
+    }
+    
+    public void btnAddListener() {
+        System.out.println("-------------------------");
+        ComprobanteDetalle det = new ComprobanteDetalle ();
+       
+        
+        lstDetalle.add(det);
         
     }
     
