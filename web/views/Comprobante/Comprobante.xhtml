@@ -12,6 +12,9 @@
 
             <ui:define name="content">
 
+                <!--Adquiriendo detalle al cargar la pagina-->
+                #{comprobanteBean.listarComprobanteDetalle()}
+                
                 <h:form id="formNuevoComprobante">
                     <p:growl id="growl" showDetail="true" autoUpdate="true"/>
                     <div class="ui-fluid">
@@ -33,19 +36,19 @@
                                         
                                         <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
                                         <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" placeholder="yyyy/MM/dd" 
-                                                    locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                                                    locale="es"  pattern="yyyy/MM/dd"/>
 
                                         <p:outputLabel for="usuario" value="Usuario "/>
-                                        <p:inputText id="usuario"  required="true"/>
+                                        <p:inputText id="usuario"  />
 
 
                                         <p:outputLabel for="descripcion" value="Descripcion "/>
-                                        <p:inputText id="descripcion" required="true"/>
+                                        <p:inputText id="descripcion" />
 
 
                                         <p:outputLabel for="fechaContable" value="Fecha Contable"/>
                                         <p:calendar id="fechaContable"  placeholder="yyyy/MM/dd" 
-                                                    locale="es"  pattern="yyyy/MM/dd" required="true"/>
+                                                    locale="es"  pattern="yyyy/MM/dd" />
                                     </p:panelGrid>
                                 </p:panel>
 
@@ -81,15 +84,29 @@
                                 </p:panel>
 
                                 <p:panel id="TableDetalle" style="width: 100%; margin-top:5px;">
-                                    <p:dataTable id="tblDetalle" var="row" value="#{comprobanteBean.lstDetalle}" 
+                                    <p:dataTable id="tblDetalle" value="#{comprobanteBean.lstDetalle}" var="row" 
                                                  widgetVar="tblDetalle" 
                                                  rowIndexVar="index">
                                         <p:column headerText="No.">
                                             <h:outputText value="#{index + 1}"/>
                                         </p:column>
-                                        <p:column headerText="Valores">
-                                            <h:outputText value="aaaaaa"/>
+                                        
+                                        <p:column headerText="Codigo Cuenta">
+                                            <h:outputText value="#{row.codigoCuenta}"/>
                                         </p:column>
+                                        
+                                        <p:column headerText="Descripcion">
+                                            <h:outputText value="#{row.descripcionCuenta}"/>
+                                        </p:column>
+                                            
+                                        <p:column headerText="Monto">
+                                            <h:outputText value="#{row.monto}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Accion">
+                                            <h:outputText value="#{row.accion}"/>
+                                        </p:column>
+                                        
                                     </p:dataTable>
                                 </p:panel>
 
