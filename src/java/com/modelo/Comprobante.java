@@ -26,6 +26,16 @@ public class Comprobante
         this.fechaContable = fechaContable;
     }
 
+    public Comprobante(Date fecha, String usuario, String descripcion, Date fechaContable) {
+        this.fecha = fecha;
+        this.usuario = usuario;
+        this.descripcion = descripcion;
+        this.fechaContable = fechaContable;
+    }
+    
+    
+    
+
     public int getIdComprobante() {
         return idComprobante;
     }

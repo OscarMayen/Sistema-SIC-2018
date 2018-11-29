@@ -14,6 +14,9 @@ public class ComprobanteDetalle
     private int idCuenta;
     private String idComprobante2;
     private String idCuenta2;
+    private String codigoCuenta;
+    private String descripcionCuenta;
+    
     
     public ComprobanteDetalle() {
     }
@@ -28,6 +31,15 @@ public class ComprobanteDetalle
         this.idCuenta = idCuenta;
     }
 
+    public ComprobanteDetalle(double monto, String accion, int idComprobante, int idCuenta) {
+        this.monto = monto;
+        this.accion = accion;
+        this.idComprobante = idComprobante;
+        this.idCuenta = idCuenta;
+    }
+    
+    
+
     //Solo para mostrar datos
 
     public ComprobanteDetalle(int idComprobanteDetalle, double monto, String accion, String idComprobante2, String idCuenta2) {
@@ -37,6 +49,14 @@ public class ComprobanteDetalle
         this.idComprobante2 = idComprobante2;
         this.idCuenta2 = idCuenta2;
     }
+
+    public ComprobanteDetalle(double monto, String accion, String codigoCuenta, String descripcionCuenta) {
+        this.monto = monto;
+        this.accion = accion;
+        this.codigoCuenta = codigoCuenta;
+        this.descripcionCuenta = descripcionCuenta;
+    }
+    
 
     public String getIdComprobante2() {
         return idComprobante2;
@@ -94,6 +114,23 @@ public class ComprobanteDetalle
     public void setIdCuenta(int idCuenta) {
         this.idCuenta = idCuenta;
     }
+
+    public String getCodigoCuenta() {
+        return codigoCuenta;
+    }
+
+    public void setCodigoCuenta(String codigoCuenta) {
+        this.codigoCuenta = codigoCuenta;
+    }
+
+    public String getDescripcionCuenta() {
+        return descripcionCuenta;
+    }
+
+    public void setDescripcionCuenta(String descripcionCuenta) {
+        this.descripcionCuenta = descripcionCuenta;
+    }
+    
     
     
     

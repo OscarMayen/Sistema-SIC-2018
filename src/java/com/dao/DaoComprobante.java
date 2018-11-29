@@ -15,6 +15,8 @@ import java.sql.Date;
 public class DaoComprobante extends Conexion 
 {
     public void insertarComprobante(Comprobante com) throws Exception {
+        
+        System.out.println("/////" + com.getFecha() +com.getFechaContable());
         try 
         {
             this.conectar();

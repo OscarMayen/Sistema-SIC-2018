@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import java.util.Date;
 
 /**
  *
@@ -38,7 +39,23 @@ public class ComprobanteBean implements Serializable {
     
     private List < Cuenta > lstCta = new ArrayList();
     private Cuenta ctaSelect = new Cuenta();
+    
+    /*Atributos para crear Comprobante*////
+    private int idComprobante;
+    private Date fecha;
+    private String usuario;
+    private String descripcionCom;
+    private Date fechaContable;
+    
+    /*****************************/
+    
 
+    /*Atributos para crear ComprobanteDetalle*////
+    private double monto;
+    private String accion;
+    private int idCuenta;
+    
+    /*****************************/
     public ComprobanteBean() {
     }
 
@@ -122,9 +139,76 @@ public class ComprobanteBean implements Serializable {
         this.comDe = comDe;
     }
     
-    
-    
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getDescripcionCom() {
+        return descripcionCom;
+    }
+
+    public void setDescripcionCom(String descripcionCom) {
+        this.descripcionCom = descripcionCom;
+    }
+
+    public Date getFechaContable() {
+        return fechaContable;
+    }
+
+    
+    public void setFechaContable(Date fechaContable) {
+        this.fechaContable = fechaContable;
+    }
+
+    
+    public int getIdComprobante() {
+        return idComprobante;
+    }
+
+   
+    public void setIdComprobante(int idComprobante) {
+        this.idComprobante = idComprobante;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public int getIdCuenta() {
+        return idCuenta;
+    }
+
+    public void setIdCuenta(int idCuenta) {
+        this.idCuenta = idCuenta;
+    }
+
+    
+    
     public void prepararNuevoComprobante() {
         com = new Comprobante();
     }
@@ -142,15 +226,28 @@ public class ComprobanteBean implements Serializable {
 
     public void insertarComprobante() throws Exception {
         DaoComprobante daoC;
-
-        daoC = new DaoComprobante();
-        daoC.insertarComprobante(this.com);
-        listarComprobantes();
-        this.com = new Comprobante();
-        //mostrando mensaje//
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Exito", "Comprobante insertado correctamente"));
+        
+        if(this.fecha==null||this.usuario==null||this.descripcionCom==null||this.fechaContable==null)
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"EROOR","DEBE COMPLETAR LOS CAMPOS"));
+        }
+        else 
+        {
+            Comprobante cb = new Comprobante(this.fecha, this.usuario, this.descripcionCom, this.fechaContable);
+            daoC = new DaoComprobante();
+            daoC.insertarComprobante(cb);
+            listarComprobantes();
+            cb = new Comprobante();
+            this.idComprobante = daoC.recuperarUltimo();
+            //mostrando mensaje//
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"EXITO","TRANSACCION REALIZADA"));
+        }
+        
+        
     }
+   
 
     public void eliminar() throws Exception {
         DaoComprobante daoC = new DaoComprobante();
@@ -168,6 +265,7 @@ public class ComprobanteBean implements Serializable {
 
         try {
             cuent = daoCu.cuentaPorCodigo(ctaDesc);
+            this.idCuenta=cuent.getIdCuenta();
             
             if (cuent != null) {
                 descripcion = cuent.getDescripcion();
@@ -238,14 +336,32 @@ public class ComprobanteBean implements Serializable {
     public void listarComprobanteDetalle() throws Exception {
         DaoComprobanteDetalle daoCD;
         daoCD = new DaoComprobanteDetalle();
-        System.out.println("////////////////");
         this.lstDetalle = daoCD.mostrarComprobantesDetalle();
-         System.out.println("////////////////");
         this.comDe = new ComprobanteDetalle();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Exito", "Transaccion mostrados correctamente"));
 
     }
+    
+     
+    public void insertarComprobanteDtl() throws Exception {
+        DaoComprobanteDetalle daoD;
+        
+        ComprobanteDetalle cd= new ComprobanteDetalle(this.monto,this.accion,this.idComprobante,this.idCuenta);
+        
+        cd.setDescripcionCuenta(descripcion);
+        cd.setCodigoCuenta(ctaDesc);
+        daoD = new DaoComprobanteDetalle();
+        daoD.insertarComprobanteDetalle(cd);
+         lstDetalle.add(cd);
+      //  listarComprobantes();
+        cd = new ComprobanteDetalle();
+        //mostrando mensaje//
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Exito", "Detalle insertado correctamente"));
+    }
+    
+    
     
     
 

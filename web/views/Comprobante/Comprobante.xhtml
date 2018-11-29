@@ -12,8 +12,7 @@
 
             <ui:define name="content">
 
-                <!--Adquiriendo detalle al cargar la pagina-->
-                #{comprobanteBean.listarComprobanteDetalle()}
+              
                 
                 <h:form id="formNuevoComprobante">
                     <p:growl id="growl" showDetail="true" autoUpdate="true"/>
@@ -23,7 +22,7 @@
                                 <p:menubar>
                                     <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" update="@form" style="color: white; font-weight: bold"/>
                                     <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk " style="color: white; font-weight: bold"
-                                                update="@form"/>
+                                                update="@form" action="#{comprobanteBean.insertarComprobante()}"/>
                                 </p:menubar>
                                 <p:defaultCommand target="btnDefautl"/>
                                 <p:commandButton id="btnDefautl" process="@none" global="false" style="display:none;"/>
@@ -31,24 +30,24 @@
                                     <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" 
                                                  columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
 
-                                        <p:outputLabel for="idcompr" value="Comrobante "/>
-                                        <p:inputText id="idcompr"/>
+                                        <p:outputLabel for="idcompr" value="Comprobante "/>
+                                        <p:inputText id="idcompr" disabled="true" value="#{comprobanteBean.idComprobante}"/>
                                         
                                         <p:outputLabel for="fechaRealizacion" value="Fecha de Realizacion"/>
                                         <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" placeholder="yyyy/MM/dd" 
-                                                    locale="es"  pattern="yyyy/MM/dd"/>
+                                                    locale="es"  pattern="yyyy/MM/dd" value="#{comprobanteBean.fecha}"/>
 
                                         <p:outputLabel for="usuario" value="Usuario "/>
-                                        <p:inputText id="usuario"  />
+                                        <p:inputText id="usuario" value="#{comprobanteBean.usuario}"  />
 
 
                                         <p:outputLabel for="descripcion" value="Descripcion "/>
-                                        <p:inputText id="descripcion" />
+                                        <p:inputText id="descripcion" value="#{comprobanteBean.descripcionCom}"/>
 
 
                                         <p:outputLabel for="fechaContable" value="Fecha Contable"/>
                                         <p:calendar id="fechaContable"  placeholder="yyyy/MM/dd" 
-                                                    locale="es"  pattern="yyyy/MM/dd" />
+                                                    locale="es"  pattern="yyyy/MM/dd" value="#{comprobanteBean.fechaContable}" />
                                     </p:panelGrid>
                                 </p:panel>
 
@@ -70,16 +69,16 @@
                                         </p:inputText>
 
                                         <p:outputLabel for="mto" value="Monto "/>
-                                        <p:spinner id="mto"  prefix="$" min="0" stepFactor="0.01"/>
+                                        <p:spinner id="mto"  prefix="$" min="0" stepFactor="0.01" value="#{comprobanteBean.monto}"/>
 
 
                                         <p:outputLabel for="accion" value="Accion"/>
-                                        <p:selectOneRadio id="accion" >
+                                        <p:selectOneRadio id="accion" value="#{comprobanteBean.accion}">
                                             <f:selectItem itemLabel="Debe" itemValue="Debe" />
                                             <f:selectItem itemLabel="Haber" itemValue="Debe" />
                                         </p:selectOneRadio>
                                        
-                                        <p:commandButton id="btnAdd" icon="ui-icon-circle-plus" action="#{comprobanteBean.btnAddListener()}" update="tblDetalle"/>
+                                        <p:commandButton id="btnAdd" icon="ui-icon-circle-plus" action="#{comprobanteBean.insertarComprobanteDtl()}" update="tblDetalle" />
                                     </p:panelGrid>
                                 </p:panel>
 
