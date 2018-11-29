@@ -17,7 +17,7 @@ import javax.faces.event.ValueChangeEvent;
 
 /**
  *
- * @author admin
+ * @author Oscar
  */
 @ManagedBean
 @ViewScoped

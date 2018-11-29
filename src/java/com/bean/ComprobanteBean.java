@@ -242,7 +242,7 @@ public class ComprobanteBean implements Serializable {
             this.idComprobante = daoC.recuperarUltimo();
             //mostrando mensaje//
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"EXITO","TRANSACCION REALIZADA"));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"EXITO","TRANSACCION REALIZADA!"));
         }
         
         
