@@ -12,6 +12,7 @@ public class ComprobanteDetalle
     private String accion;
     private int idComprobante;
     private int idCuenta;
+    
     private String idComprobante2;
     private String idCuenta2;
     private String codigoCuenta;

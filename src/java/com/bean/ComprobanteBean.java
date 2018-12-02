@@ -242,7 +242,7 @@ public class ComprobanteBean implements Serializable {
             this.idComprobante = daoC.recuperarUltimo();
             //mostrando mensaje//
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"EXITO","TRANSACCION REALIZADA!"));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"EXITO","DATOS GUARDADOS"));
         }
         
         
@@ -363,6 +363,26 @@ public class ComprobanteBean implements Serializable {
     
     
     
+        public void resetNew() {
+        this.fecha = null;
+        this.usuario = null;
+        this.descripcionCom = null;
+        this.fechaContable = null; 
+        this.ctaDesc=null;
+        this.descripcion=null;
+        this.monto=0;
+        this.accion=null;
+        this.idComprobante=0;
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"NUEVA","NUEVA TRANSACCION"));
+    }
     
+    public void eliminarCD() throws Exception {
+        DaoComprobanteDetalle daoCD = new DaoComprobanteDetalle();
+        daoCD.eliminarComprobanteDetalle(this.comDe);
+        this.comDe = new ComprobanteDetalle();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Detalle eliminado correctamente"));
+    } 
 
 }

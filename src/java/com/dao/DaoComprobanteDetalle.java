@@ -60,11 +60,19 @@ public class DaoComprobanteDetalle extends Conexion
      
      public void eliminarComprobanteDetalle(ComprobanteDetalle comDe) throws Exception {
         try {
+            if(comDe!=null)
+            {   
+                System.out.println("id: " + comDe.getIdComprobanteDetalle());
+                System.out.println("MONTO: " + comDe.getMonto());
+                System.out.println("ACCION: " + comDe.getAccion());
+                System.out.println("IDCOMPROBANTE: " + comDe.getIdComprobante());
+            }
             this.conectar();
             String sql="delete from comprobanteDetalle where idComprobanteDetalle=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setInt(1,comDe.getIdComprobanteDetalle());
+            pre.setInt(1,comDe.getIdComprobante());
             pre.executeUpdate();
+            
         } catch (Exception e) {
         }
         finally{

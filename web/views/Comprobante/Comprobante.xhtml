@@ -20,7 +20,7 @@
                         <p:tabView id="tab">
                             <p:tab title="Comprobante" >
                                 <p:menubar>
-                                    <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" update="@form" style="color: white; font-weight: bold"/>
+                                    <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" action="#{comprobanteBean.resetNew()}" update="@form" style="color: white; font-weight: bold"/>
                                     <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk " style="color: white; font-weight: bold"
                                                 update="@form" action="#{comprobanteBean.insertarComprobante()}"/>
                                 </p:menubar>
@@ -75,7 +75,7 @@
                                         <p:outputLabel for="accion" value="Accion"/>
                                         <p:selectOneRadio id="accion" value="#{comprobanteBean.accion}">
                                             <f:selectItem itemLabel="Debe" itemValue="Debe" />
-                                            <f:selectItem itemLabel="Haber" itemValue="Debe" />
+                                            <f:selectItem itemLabel="Haber" itemValue="Haber" />
                                         </p:selectOneRadio>
                                        
                                         <p:commandButton id="btnAdd" icon="ui-icon-circle-plus" action="#{comprobanteBean.insertarComprobanteDtl()}" update="tblDetalle" />
@@ -104,6 +104,13 @@
                                         
                                         <p:column headerText="Accion">
                                             <h:outputText value="#{row.accion}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Eliminar" >
+                                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarDetalle').show();"
+                                                             update="@form">
+                                                <f:setPropertyActionListener target="#{comprobanteBean.comDe}" value="#{row}"/>
+                                            </p:commandButton>
                                         </p:column>
                                         
                                     </p:dataTable>
@@ -147,6 +154,21 @@
                             </p:dataTable>
                         </p:panel>
                     </p:dialog>
+                    
+                    <h:form id="formEliminarSaldo">
+                        <p:dialog id="digEliminarSaldo" widgetVar="dialogEliminarDetalle" resizable="false" showEffect="explode"
+                                  hideEffect="explode" modal="true">
+
+                            <h:outputText value=" ¿Desea eliminar el detalle de la transaccion? "/>
+                            <p:commandButton value="Si" actionListener="#{comprobanteBean.eliminarCD()}"
+                                            
+                                             oncomplete="PF('dialogEliminarDetalle').hide();"/>
+
+                            <p:commandButton value="No"
+                                             oncomplete="PF('dialogEliminarSaldo').hide();"/>
+                        </p:dialog>
+
+                    </h:form>
                 </h:form>
             </ui:define>
         </ui:composition>
