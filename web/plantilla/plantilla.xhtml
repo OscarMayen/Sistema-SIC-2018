@@ -24,24 +24,21 @@
                     <h:form>  
                         <p:menubar>
                             <p:submenu label="Inicio" icon="ui-icon-document">
-                                <p:menuitem value="Pagina Inicio" url="#" />
+                                <p:menuitem value="Pagina Inicio" outcome="/views/Bienvenido/bienvenido" />
                                 <p:separator />
                                 <p:menuitem value="Salir" url="#" />
                             </p:submenu>
 
-                            <p:submenu label="Clientes" icon="ui-icon-pencil">
-                                <p:menuitem value="Ver/Editar" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+                            <p:submenu label="Empleados" icon="ui-icon-person">
+                                <p:menuitem value="Listado" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:menuitem value="Planilla" url="#" icon="ui-icon-arrowreturnthick-1-w" />
                             </p:submenu>
 
-                            <p:submenu label="Productos" icon="ui-icon-pencil">
-                                <p:menuitem value="Ver/Editar" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-                            </p:submenu>
-
-                            <p:submenu label="Transaccion" icon="ui-icon-transferthick-ew">
+                            <p:submenu label="Transaccion" icon="ui-icon-transferthick-e-w">
                                 <p:menuitem value="Nueva" outcome="/views/Comprobante/Comprobante" icon="ui-icon-plusthick"/>
                             </p:submenu>
                             
-                            <p:submenu label="Catalogo de Cuentas" icon="ui-icon-pencil">
+                            <p:submenu label="Catalogo de Cuentas" icon="ui-icon-document">
                                 <p:menuitem value="Listado de Cuentas" outcome="/views/Cuenta/Cuenta" icon="ui-icon-arrowreturnthick-1-w"/>
                                 <p:menuitem value="Saldo de cuentas" outcome="/views/Saldos/Saldo" icon="ui-icon-arrowreturnthick-1-w"/>
                             </p:submenu>
@@ -51,6 +48,10 @@
                                 <p:menuitem value="Estado de Resultados" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
                                 <p:menuitem value="Estado de Capital" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
                                 <p:menuitem value="Balance General" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                            </p:submenu>
+                            
+                             <p:submenu label="Reportes" icon="ui-icon-print">
+                                <p:menuitem value="Ver/Editar" url="#" icon="ui-icon-arrowreturnthick-1-w" />
                             </p:submenu>
                             
                         </p:menubar>

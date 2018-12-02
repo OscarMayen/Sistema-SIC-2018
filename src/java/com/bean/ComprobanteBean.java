@@ -365,8 +365,7 @@ public class ComprobanteBean implements Serializable {
         if (monto <=0 || idComprobante<=0) {
              FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Exito", "Error"));
-        return;
-            
+        return;   
         }
         DaoComprobanteDetalle daoD;
         
