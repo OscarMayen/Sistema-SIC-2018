@@ -58,12 +58,27 @@
                         <p:column headerText="Periodo">
                             <p:outputLabel value="#{sl.periodo}"/>
                         </p:column>
-                        
-                        <p:column headerText="Eliminar" >
-                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarSaldo').show();"
-                                             update=":formEliminarSaldo">
-                                <f:setPropertyActionListener target="#{saldoBean.sa}" value="#{sl}"/>
+
+                        <p:column headerText="Modificar">
+                            <p:commandButton value="Modificar" actionListener="#{saldoBean.seleccionar(sl)}" 
+                                             oncomplete="PF('wdlgDatos').show();" 
+                                             update=":dlgDatos" 
+                                             immediate="true"/>
+                        </p:column>
+
+                        <p:column headerText="Eliminar">
+
+                            <p:commandButton value="Eliminar" actionListener="#{saldoBean.eliminar()}" update="datos" immediate="true">
+                                <p:confirm header="Confirmation" message="¿Desea eliminar el saldo?" icon="ui-icon-alert" />
                             </p:commandButton>
+
+
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+
                         </p:column>
 
                     </p:dataTable>
@@ -85,12 +100,12 @@
                                 <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
                                            required="true" stepFactor="0.01"/>
                                 <p:message for="saldoInicial"/>
-                                
+
                                 <p:outputLabel for="saldoActual" value="Saldo Actual"/>
                                 <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
                                            required="true" stepFactor="0.01"/>
                                 <p:message for="saldoActual"/>
-                                
+
                                 <p:outputLabel for="saldoFinal" value="Saldo Final"/>
                                 <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  
                                            required="true" stepFactor="0.01"/>
@@ -123,22 +138,59 @@
                     </p:dialog>
 
                 </h:form>
-                
-                
-                <h:form id="formEliminarSaldo">
-                    <p:dialog id="digEliminarSaldo" widgetVar="dialogEliminarSaldo" resizable="false" showEffect="explode"
-                              hideEffect="explode" modal="true">
 
-                        <h:outputText value=" ¿Desea eliminar el saldo? "/>
-                        <p:commandButton value="Si" actionListener="#{saldoBean.eliminar()}"
-                                         update=":formulario:datos"  
-                                         oncomplete="PF('dialogEliminarSaldo').hide();"/>
 
-                        <p:commandButton value="No"
-                                         oncomplete="PF('dialogEliminarSaldo').hide();"/>
-                    </p:dialog>
+                <p:dialog header="Saldos" widgetVar="wdlgDatos" id="dlgDatos">
+                    <h:form>                
+                        <h:panelGrid columns="3" cellpadding="5" >
 
-                </h:form>
+                            <p:outputLabel for="anio" value="Anio"/>
+                            <p:spinner id="anio" value="#{saldoBean.sa.anio}" min="2000" max="2018" required="true" />
+                            <p:message for="anio"/>
+
+                            <p:outputLabel for="saldoInicial" value="Saldo Inicial"/>
+                            <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
+                                       required="true" stepFactor="0.01"/>
+                            <p:message for="saldoInicial"/>
+
+                            <p:outputLabel for="saldoActual" value="Saldo Actual"/>
+                            <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
+                                       required="true" stepFactor="0.01"/>
+                            <p:message for="saldoActual"/>
+
+                            <p:outputLabel for="saldoFinal" value="Saldo Final"/>
+                            <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  
+                                       required="true" stepFactor="0.01"/>
+                            <p:message for="saldoFinal"/>
+
+                            <p:outputLabel  value="Cuenta  " for="cuenta"/>
+                            <p:selectOneMenu id="cuenta" value="#{saldoBean.sa.cuenta}" required="true">
+                                <f:selectItems value="#{cuentaBean.listaCuentas}" var="c" itemValue="#{c.idCuenta}" 
+                                               itemLabel="#{c.descripcion}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:message for="cuenta"/>
+
+                            <p:outputLabel value="Periodo  " for="periodo"/>
+                            <p:selectOneMenu id="periodo" value="#{saldoBean.sa.periodo}" required="true">
+                                <f:selectItems value="#{periodoBean.listaPeriodos}" var="p" itemValue="#{p.idPeriodo}" 
+                                               itemLabel="#{p.fechaInicio}   /   #{p.fechaFin} "
+                                               />
+                            </p:selectOneMenu>
+                            <p:message for="periodo"/>
+
+
+                            <h:panelGroup>
+                                <p:commandButton value="Modificar" actionListener="#{saldoBean.modificar()}" 
+                                                 update=":formulario:datos"
+                                                 oncomplete="PF('wdlgDatos').hide();">
+                                    <p:confirm header="Confirmation" message="¿Esta seguro de modificar el saldo?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
 
             </ui:define>
 

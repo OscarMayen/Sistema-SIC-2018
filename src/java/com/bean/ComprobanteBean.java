@@ -54,7 +54,8 @@ public class ComprobanteBean implements Serializable {
     private double monto;
     private String accion;
     private int idCuenta;
-    
+    private double debe;
+    private double haber;
     /*****************************/
     public ComprobanteBean() {
     }
@@ -207,6 +208,22 @@ public class ComprobanteBean implements Serializable {
         this.idCuenta = idCuenta;
     }
 
+    public double getDebe() {
+        return debe;
+    }
+
+    public void setDebe(double debe) {
+        this.debe = debe;
+    }
+
+    public double getHaber() {
+        return haber;
+    }
+
+    public void setHaber(double haber) {
+        this.haber = haber;
+    }
+
     
     
     public void prepararNuevoComprobante() {
@@ -345,6 +362,12 @@ public class ComprobanteBean implements Serializable {
     
      
     public void insertarComprobanteDtl() throws Exception {
+        if (monto <=0 || idComprobante<=0) {
+             FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Exito", "Error"));
+        return;
+            
+        }
         DaoComprobanteDetalle daoD;
         
         ComprobanteDetalle cd= new ComprobanteDetalle(this.monto,this.accion,this.idComprobante,this.idCuenta);
@@ -353,10 +376,15 @@ public class ComprobanteBean implements Serializable {
         cd.setCodigoCuenta(ctaDesc);
         daoD = new DaoComprobanteDetalle();
         daoD.insertarComprobanteDetalle(cd);
+        
+        // sacar el max y setear en cd
+        //cd.setIdComprobanteDetalle(idComprobante);
+        
          lstDetalle.add(cd);
       //  listarComprobantes();
         cd = new ComprobanteDetalle();
         //mostrando mensaje//
+        calcularTotales();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Exito", "Detalle insertado correctamente"));
     }
@@ -373,7 +401,9 @@ public class ComprobanteBean implements Serializable {
         this.monto=0;
         this.accion=null;
         this.idComprobante=0;
-        
+        lstDetalle = new ArrayList();
+        debe=0;
+        haber=0;
         FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"NUEVA","NUEVA TRANSACCION"));
     }
@@ -384,5 +414,30 @@ public class ComprobanteBean implements Serializable {
         this.comDe = new ComprobanteDetalle();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Detalle eliminado correctamente"));
     } 
+    
+    public void updateTotales()
+    {   
+       // calcularTotales();
+        
+    
+    }
+    
+    void calcularTotales() {
+        debe = 0;
+        haber = 0;
+        for(ComprobanteDetalle d : lstDetalle )
+        {
+            System.out.println(d.getAccion());
+            if(d.getAccion().equals("Debe"))
+            {
+                debe = debe + d.getMonto();
+            }
+            else{
+                haber=haber + d.getMonto();
+            }
+        }
+        System.out.println("debe " + debe);
+        System.out.println("haber " + haber);
+    }
 
 }

@@ -7,6 +7,7 @@ package com.bean;
 
 import com.dao.DaoSaldo;
 import com.modelo.Saldo;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -19,7 +20,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class SaldoBean {
+public class SaldoBean implements Serializable {
 
     private Saldo sa;
     private ArrayList<Saldo> listaSaldos; 
@@ -79,4 +80,30 @@ public class SaldoBean {
         listarSaldos();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Saldo eliminado correctamente"));
     }
+    
+    public void seleccionar(Saldo sld) {
+        DaoSaldo daoSa = new DaoSaldo();
+        Saldo saVar;
+        try {
+            saVar = daoSa.leerId(sld);
+
+            if (saVar != null) {
+                this.sa = saVar;
+            }
+
+        } catch (Exception e) {
+        }
+    }
+    
+    public void modificar() {
+        DaoSaldo daoSa = new DaoSaldo();
+        try {
+            daoSa.modificarSaldo(this.sa);
+            this.listarSaldos();
+            this.sa = new Saldo();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Saldo modificado correctamente"));
+        } catch (Exception e) {
+        }
+    }
+    
 }

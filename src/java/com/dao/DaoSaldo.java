@@ -37,10 +37,59 @@ public class DaoSaldo extends Conexion
         
     }
     
+    public Saldo leerId(Saldo sa) throws Exception 
+    {
+        
+        PreparedStatement pr;
+        ResultSet rs;
+        Saldo sld = null;
+        
+        try {   
+                this.conectar();
+                System.out.println("codigo Buscado: " + sa.getIdSaldo());
+                String sql="select sa.idSaldo, sa.anio, sa.saldoInicial, sa.saldoActual, sa.saldoFinal, "
+                         + "sa.IdCuenta, sa.idPeriodo "
+                         + "from saldo as sa "
+                    + "where sa.idSaldo=?;";
+                
+                PreparedStatement pre = this.getCon().prepareStatement(sql);
+                pre.setInt(1, sa.getIdSaldo());
+                rs = pre.executeQuery();
+                
+                while(rs.next())
+                {
+                    sld = new Saldo();
+                    sld.setIdSaldo(rs.getInt("idSaldo"));
+                    sld.setAnio(rs.getInt("anio"));
+                    sld.setSaldoInicial(rs.getDouble("saldoInicial"));
+                    sld.setSaldoActual(rs.getDouble("saldoActual"));
+                    sld.setSaldoFinal(rs.getDouble("saldoFinal"));
+                    sld.setCuenta(rs.getInt("idCuenta"));
+                    sld.setPeriodo(rs.getInt("idPeriodo"));
+                }
+               
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+          this.desconectar();
+        }
+        return sld;
+        
+    }
+    
+    
     public void modificarSaldo(Saldo sa) throws Exception{
+        
         try {
+            System.out.println("/////////////////////");
+            System.out.println("/////////////////////");
+             System.out.println("IDSaldo " + sa.getIdSaldo());
             this.conectar();
-            String sql="update comprobante set anio=?, saldoInicial=?, saldoActual=?, saldoFinal=?, "
+            String sql="update saldo set anio=?, saldoInicial=?, saldoActual=?, saldoFinal=?, "
                     + "idCuenta=?, idPeriodo=?  "
                     + "where idSaldo=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
