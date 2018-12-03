@@ -16,7 +16,7 @@ public class DaoSaldo extends Conexion
     public void insertarSaldo(Saldo sa) throws Exception {
         try {
             this.conectar();
-            String sql="insert into saldo(anio,saldoInicial,saldoActual,saldoFinal,idCuenta,idPeriodo) "
+            String sql="insert into saldo(anio,totalDebe,totalHaber,saldoFinal,idCuenta,idPeriodo) "
                     + "value(?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1,sa.getAnio());
@@ -47,7 +47,7 @@ public class DaoSaldo extends Conexion
         try {   
                 this.conectar();
                 System.out.println("codigo Buscado: " + sa.getIdSaldo());
-                String sql="select sa.idSaldo, sa.anio, sa.saldoInicial, sa.saldoActual, sa.saldoFinal, "
+                String sql="select sa.idSaldo, sa.anio, sa.totalDebe, sa.totalHaber, sa.saldoFinal, "
                          + "sa.IdCuenta, sa.idPeriodo "
                          + "from saldo as sa "
                     + "where sa.idSaldo=?;";
@@ -61,8 +61,8 @@ public class DaoSaldo extends Conexion
                     sld = new Saldo();
                     sld.setIdSaldo(rs.getInt("idSaldo"));
                     sld.setAnio(rs.getInt("anio"));
-                    sld.setSaldoInicial(rs.getDouble("saldoInicial"));
-                    sld.setSaldoActual(rs.getDouble("saldoActual"));
+                    sld.setSaldoInicial(rs.getDouble("totalDebe"));
+                    sld.setSaldoActual(rs.getDouble("totalHaber"));
                     sld.setSaldoFinal(rs.getDouble("saldoFinal"));
                     sld.setCuenta(rs.getInt("idCuenta"));
                     sld.setPeriodo(rs.getInt("idPeriodo"));
@@ -85,11 +85,9 @@ public class DaoSaldo extends Conexion
     public void modificarSaldo(Saldo sa) throws Exception{
         
         try {
-            System.out.println("/////////////////////");
-            System.out.println("/////////////////////");
-             System.out.println("IDSaldo " + sa.getIdSaldo());
+           
             this.conectar();
-            String sql="update saldo set anio=?, saldoInicial=?, saldoActual=?, saldoFinal=?, "
+            String sql="update saldo set anio=?, totalDebe=?, totalHaber=?, saldoFinal=?, "
                     + "idCuenta=?, idPeriodo=?  "
                     + "where idSaldo=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
@@ -114,6 +112,8 @@ public class DaoSaldo extends Conexion
     public void eliminarSaldo(Saldo sa) throws Exception {
         try {
             this.conectar();
+            System.out.println("///////// dato");
+            System.out.println("ID"+ sa.getIdSaldo());
             String sql="delete from saldo where idSaldo=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1,sa.getIdSaldo());
@@ -131,7 +131,7 @@ public class DaoSaldo extends Conexion
         ResultSet res=null;
         try {
             this.conectar();
-            String sql="select s.idSaldo, s.anio,  s.saldoInicial, s.saldoActual, s.saldoFinal, "
+            String sql="select s.idSaldo, s.anio,  s.totalDebe, s.totalHaber, s.saldoFinal, "
                     + "c.descripcion, s.idPeriodo "
                     + "from saldo as s "
                     + "inner join cuenta as c on c.idCuenta=s.idCuenta";
@@ -141,8 +141,8 @@ public class DaoSaldo extends Conexion
                 Saldo sa=new Saldo();
                 sa.setIdSaldo(res.getInt("idSaldo"));
                 sa.setAnio(res.getInt("anio"));
-                sa.setSaldoInicial(res.getDouble("saldoInicial"));
-                sa.setSaldoActual(res.getDouble("saldoActual"));
+                sa.setSaldoInicial(res.getDouble("totalDebe"));
+                sa.setSaldoActual(res.getDouble("totalHaber"));
                 sa.setSaldoFinal(res.getDouble("saldoFinal"));
                 sa.setCuenta2(res.getString("descripcion"));
                 sa.setPeriodo(res.getInt("idPeriodo"));
@@ -159,5 +159,49 @@ public class DaoSaldo extends Conexion
          java.sql.Date SqlSate = new java.sql.Date(UtilSQL.getTime());
          return SqlSate;
      }
+    
+    
+    public Saldo saldoPorCodigo(int idCuenta) throws Exception 
+    {
+        
+        PreparedStatement pr;
+        ResultSet rs;
+        Saldo sl = null;
+        
+        try {   
+                this.conectar();
+                
+                String sql="select sa.idSaldo, sa.anio, sa.totalDebe, "
+                         + "sa.totalHaber, sa.saldoFinal, sa.idCuenta, sa.idPeriodo "
+                         + "from saldo as sa "
+                    + "where sa.idCuenta=?;";
+                
+                PreparedStatement pre = this.getCon().prepareStatement(sql);
+                pre.setInt(1, idCuenta);
+                rs = pre.executeQuery();
+                sl = new Saldo();
+                while(rs.next())
+                {
+                    sl.setIdSaldo(rs.getInt("idSaldo"));
+                    sl.setAnio(rs.getInt("anio"));
+                    sl.setSaldoInicial(rs.getDouble("totalDebe"));
+                    sl.setSaldoActual(rs.getDouble("totalHaber"));
+                    sl.setSaldoFinal(rs.getDouble("saldoFinal"));
+                    sl.setCuenta(rs.getInt("idCuenta"));
+                    sl.setPeriodo(rs.getInt("idPeriodo"));
+                }   
+               
+        } 
+        catch (Exception e) 
+        {
+            throw new Exception("Error saldoPorCodigo: " + e.getMessage());
+        }
+        finally
+        {
+          this.desconectar();
+        }
+        return sl;
+        
+    }
     
 }

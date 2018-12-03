@@ -3,9 +3,11 @@ package com.bean;
 import com.dao.DaoComprobante;
 import com.dao.DaoComprobanteDetalle;
 import com.dao.DaoCuenta;
+import com.dao.DaoSaldo;
 import com.modelo.Comprobante;
 import com.modelo.ComprobanteDetalle;
 import com.modelo.Cuenta;
+import com.modelo.Saldo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -386,6 +388,8 @@ public class ComprobanteBean implements Serializable {
         calcularTotales();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Exito", "Detalle insertado correctamente"));
+        
+        modificarSaldos();
     }
     
     
@@ -435,8 +439,41 @@ public class ComprobanteBean implements Serializable {
                 haber=haber + d.getMonto();
             }
         }
-        System.out.println("debe " + debe);
-        System.out.println("haber " + haber);
+       
     }
+    
+    public void modificarSaldos()
+    {
+        Cuenta c = new Cuenta();
+        Saldo s = new Saldo();
+        
+        DaoSaldo DaoS = new DaoSaldo();
+        DaoCuenta daoC= new DaoCuenta();
+        for(ComprobanteDetalle d : lstDetalle)
+        {
+            try {
+               c=daoC.cuentaPorCodigo(d.getCodigoCuenta());
+               s=DaoS.saldoPorCodigo(c.getIdCuenta());
+               if(d.getAccion().equals("Debe") && c.getTipoCuenta()==1)
+               {
+                   // SaldoInicial = totalDebe
+                   s.setSaldoInicial(s.getSaldoInicial()+ monto);
+                   System.out.println("Resultado de la suma 1: " + (s.getSaldoInicial()));
+               }
+               else{
+                   // SaldoActual = totalHaber
+                   s.setSaldoActual(s.getSaldoActual()+monto);
+                   System.out.println("Resultado de la suma es 2: " + s.getSaldoActual());
+               }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(ComprobanteBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+        
+    }
+    
 
 }

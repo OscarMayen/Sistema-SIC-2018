@@ -170,7 +170,7 @@ public class DaoCuenta extends Conexion
         
         try {   
                 this.conectar();
-                System.out.println("codigo Buscado: " + codigo);
+                
                 String sql="select cu.idCuenta, cu.codigo, cu.descripcion, "
                          + "cu.cuentaPadre, cu.tipoCuenta "
                          + "from cuenta as cu "

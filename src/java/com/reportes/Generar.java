@@ -5,16 +5,12 @@
  */
 package com.reportes;
 
-import com.conexion.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,12 +37,7 @@ public class Generar extends HttpServlet {
         byte[] reporteByte = null;
         
         String rutarpt =     (String) request.getSession().getAttribute("rutarpt");
-        Map param = (Map) request.getSession().getAttribute("param");
-       
-         //String rutarpt =    "/com/reportes/rpt.jasper";
-         //Map parameters = (Map) request.getSession().getAttribute("parameters");
-
-         Map parameters = new HashMap();
+         Map parameters = (Map) request.getSession().getAttribute("parameters");
 
         if (rutarpt == null || rutarpt.equals("")){
             PrintWriter out = response.getWriter();
@@ -54,7 +45,7 @@ public class Generar extends HttpServlet {
             out.close();
             return;
         }
-
+        
 
 //        if (parameters == null){
 //            PrintWriter out = response.getWriter();

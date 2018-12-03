@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="formNuevoComprobante">
+                    <p:growl id="growl" showDetail="true" autoUpdate="true"/>
+                    <div class="ui-fluid">
+                        <p:tabView id="tab">
+                            <p:tab title="Comprobante" >
+                                <p:menubar>
+                                    <p:menuitem id="itmImprimir" value="Imprimir" icon="ui-icon-print" style="color: white; font-weight: bold" action="#{balanceCompr.btnImprimirListener()}"/>
+                                    <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk " style="color: white; font-weight: bold"
+                                                update="@form"/>
+                                </p:menubar>
+                                <p:defaultCommand target="btnDefautl"/>
+                                <p:commandButton id="btnDefautl" process="@none" global="false" style="display:none;"/>
+                                <p:panel id="pnlEnca" style="margin-top:5px">
+                                    <p:panelGrid columns="8" styleClass="ui-panelgrid-blank" 
+                                                 columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-1,ui-grid-col-1,ui-grid-col-3">
+
+                                    
+                                        
+                                        <p:outputLabel for="fechaRealizacion" value="Periodo"/>
+                                        <p:calendar id="fechaRealizacion" navigator="true" showButtonPanel="false" placeholder="yyyy" 
+                                                    locale="es"  pattern="yyyy/MM/dd" value="#{balanceCompr.fechaPeriod}"/>
+
+
+                                       
+                                    </p:panelGrid>
+                                </p:panel>
+
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
