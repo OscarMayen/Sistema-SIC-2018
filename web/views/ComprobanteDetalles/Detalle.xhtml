@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+               
+                <!--Adquiriendo detalles al cargar la pagina-->
+                #{comprobanteDetalleBean.listar()}
+                
+                <h2>Listado de Transacciones</h2>
+                
+                
+                <h:form id="formulario">
+
+                    <p:dataTable id="datos" value="#{comprobanteDetalleBean.lista}" var="cd">
+
+                        <p:column headerText="ID"> 
+                            <p:outputLabel value="#{cd.idComprobante}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha ">
+                            <p:outputLabel value="#{cd.fecha2}"/>
+                        </p:column>
+
+                        <p:column headerText="Descripcion">
+                            <p:outputLabel value="#{cd.comproDescripcion2}"/>
+                        </p:column>
+                        
+                         <p:column headerText="Cuenta"> 
+                             <p:outputLabel value="#{cd.idCuenta2}"/>
+                        </p:column>
+
+                        <p:column headerText="Monto">
+                            <p:outputLabel value="#{cd.monto}"/>
+                        </p:column>
+
+                        <p:column headerText="Accion">
+                            <p:outputLabel value="#{cd.accion}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                </h:form>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

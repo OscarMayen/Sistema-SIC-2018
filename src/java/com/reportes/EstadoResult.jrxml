@@ -9,12 +9,12 @@
 	<queryString>
 		<![CDATA[select b.codigo, b.descripcion,b.tipocuenta,
 a.saldoFinal,
-IF((b.tipocuenta = 1 or b.tipocuenta = 4), a.saldoFinal, 0) as debe,
-IF((b.tipocuenta <>1 and b.tipocuenta <>4), a.saldoFinal, 0) as haber
+IF(b.tipocuenta = 4, a.saldoFinal, 0) as debe,
+IF(b.tipocuenta <> 4, a.saldoFinal, 0) as haber
 
  from saldo a
 inner join cuenta b on b.idcuenta = a.idcuenta
-where anio = $P{anio}
+where anio = $P{anio} and b.tipocuenta IN(3,4)
 order by b.tipocuenta, b.codigo]]>
 	</queryString>
 	<field name="codigo" class="java.lang.String">
@@ -37,6 +37,12 @@ order by b.tipocuenta, b.codigo]]>
 	<variable name="sumahaber" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{haber}]]></variableExpression>
 	</variable>
+	<variable name="TOTALDEBE" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{sumadebe} - $V{sumahaber}]]></variableExpression>
+	</variable>
+	<variable name="TOTALHABER" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{sumahaber} - $V{sumadebe}]]></variableExpression>
+	</variable>
 	<group name="TIPOCUENTA">
 		<groupExpression><![CDATA[$F{tipocuenta}]]></groupExpression>
 		<groupHeader>
@@ -56,7 +62,7 @@ order by b.tipocuenta, b.codigo]]>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[BALANCE DE COMPROBACION]]></text>
+				<text><![CDATA[ESTADO DE RESULTADOS]]></text>
 			</staticText>
 			<textField pattern="">
 				<reportElement uuid="2d6c1ed1-9b03-436b-ab62-febd3adba5f3" x="129" y="15" width="330" height="12"/>
@@ -192,7 +198,7 @@ order by b.tipocuenta, b.codigo]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="18">
+		<band height="49">
 			<staticText>
 				<reportElement uuid="fc2735b5-d2eb-49a6-b00c-9ad85c258a2a" x="160" y="1" width="115" height="12"/>
 				<box>
@@ -230,6 +236,36 @@ order by b.tipocuenta, b.codigo]]>
 					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sumadebe}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="244fc688-2ed9-4fe6-ad02-642a8d15fbec" x="275" y="13" width="75" height="12">
+					<printWhenExpression><![CDATA[$V{TOTALDEBE}>0]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" markup="none">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTALDEBE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="58b0e47f-4053-4abd-9e1c-d3712b5009fb" x="350" y="13" width="75" height="12">
+					<printWhenExpression><![CDATA[$V{TOTALHABER}>0]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" markup="none">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTALHABER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

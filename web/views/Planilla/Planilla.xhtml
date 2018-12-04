@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                  <!--Adquiriendo detalles al cargar la pagina-->
+                #{planillaBean.listarPl()}
+                <p:growl autoUpdate="true" showDetail="true">   
+                </p:growl>
+                <h:form id="formulario">
+                    <p:panel id="panel" header="Mostrar planilla">                     
+                       
+                    </p:panel>
+                    <p:dataTable id="datos" value="#{planillaBean.listaPla}" var="pl">
+
+                        <p:column headerText="Nombre del empleado"> 
+                            <p:outputLabel value="#{pl.empleado.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Salario nominal diario">
+                            <p:outputLabel value="#{pl.empleado.salario_diario}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Salario Mensual">
+                            <p:outputLabel value="#{pl.salnommen}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Aguinaldo"> 
+                            <p:outputLabel value="#{pl.aguinaldo}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                 
+                        <p:column headerText="Vacaciones"> 
+                            <p:outputLabel value="#{pl.vacaciones}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                        
+                        <p:column headerText="INSAFORP"> 
+                            <p:outputLabel value="#{pl.insaforp}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                        
+                         <p:column headerText="ISSS"> 
+                             <p:outputLabel value="#{pl.isss}">
+                                 <f:convertNumber pattern="#0.00"/>
+                             </p:outputLabel>
+                        </p:column>
+                        
+                        <p:column headerText="AFP"> 
+                            <p:outputLabel value="#{pl.afp}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                        
+                        <p:column headerText="Total en el mes"> 
+                            <p:outputLabel value="#{pl.total}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                        </p:column>
+                                 
+                                 
+                    </p:dataTable>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

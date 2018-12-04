@@ -84,12 +84,25 @@ public class CuentaBean implements Serializable {
         context.addMessage(null, new FacesMessage("Exito", "Cuenta insertada correctamente"));
     }
 
-    public void eliminar() throws Exception {
-        DaoCuenta daoCu = new DaoCuenta();
-        daoCu.eliminarCuenta(this.cu);
+    
+        public void eliminar(Cuenta base) throws Exception 
+    {
+        DaoCuenta daoCu;
+        Cuenta prueba;
+        int id;
+
+        daoCu = new DaoCuenta();
+        id = base.getIdCuenta();
+
+        prueba = new Cuenta();
+        prueba.setIdCuenta(id);
+
+        daoCu.eliminarCuenta(base);
+
+        this.listarCuentas();
         this.cu = new Cuenta();
-        listarCuentas();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Cuenta eliminado correctamente"));
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Cuenta eliminada correctamente"));
     }
 
     public void seleccionar(Cuenta cuent) {

@@ -12,7 +12,8 @@
         <h:outputStylesheet name="/css/cssLayout.css"/>
         <link href="/resources/css/cssLayout.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/default.css" rel="stylesheet" type="text/css"/>
-        <title>Facelets Template</title>
+         <f:event type="preRenderView" listener="#{verificarSesionBean.verificarSesionBean()}"/>
+        <title>Sistemas Contables</title>
     </h:head>
 
     <h:body>
@@ -26,12 +27,12 @@
                             <p:submenu label="Inicio" icon="ui-icon-document">
                                 <p:menuitem value="Pagina Inicio" outcome="/views/Bienvenido/bienvenido" />
                                 <p:separator />
-                                <p:menuitem value="Salir" url="#" />
+                                <p:menuitem value="Salir" action="/login" actionListener="#{loginBean.cerrarSesion()}" />
                             </p:submenu>
 
                             <p:submenu label="Empleados" icon="ui-icon-person">
-                                <p:menuitem value="Listado" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-                                <p:menuitem value="Planilla" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:menuitem value="Listado" outcome="/views/Empleado/Empleado" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:menuitem value="Planilla" outcome="/views/Planilla/Planilla" icon="ui-icon-arrowreturnthick-1-w" />
                             </p:submenu>
 
                             <p:submenu label="Transaccion" icon="ui-icon-transferthick-e-w">
@@ -43,15 +44,13 @@
                                 <p:menuitem value="Saldo de cuentas" outcome="/views/Saldos/Saldo" icon="ui-icon-arrowreturnthick-1-w"/>
                             </p:submenu>
                             
-                            <p:submenu label="Estados Financieros" icon="ui-icon-pencil">
-                                <p:menuitem value="Estado de Comprobacion" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
-                                <p:menuitem value="Estado de Resultados" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
-                                <p:menuitem value="Estado de Capital" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
-                                <p:menuitem value="Balance General" url="#" icon="ui-icon-arrowreturnthick-1-w"/>
+                            <p:submenu label="Libro de Transacciones" icon="ui-icon-pencil">
+                                <p:menuitem value="Listado" outcome="/views/ComprobanteDetalles/Detalle" icon="ui-icon-arrowreturnthick-1-w"/>
                             </p:submenu>
                             
-                             <p:submenu label="Reportes" icon="ui-icon-print">
+                             <p:submenu label="Reportes de Estados Financieros" icon="ui-icon-print">
                                 <p:menuitem value="Balance de Comprobacion" outcome="/views/Reporteria/BalanceCompr" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:menuitem value="Estado de Resultados" outcome="/views/Reporteria/EstadoResult" icon="ui-icon-arrowreturnthick-1-w" />
                             </p:submenu>
                             
                         </p:menubar>

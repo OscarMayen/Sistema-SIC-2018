@@ -1,6 +1,8 @@
 
 package com.modelo;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -17,6 +19,10 @@ public class ComprobanteDetalle
     private String idCuenta2;
     private String codigoCuenta;
     private String descripcionCuenta;
+    private Date fecha2;
+    private String comproDescripcion2;
+    
+    
     
     
     public ComprobanteDetalle() {
@@ -24,12 +30,12 @@ public class ComprobanteDetalle
 
     
     
-    public ComprobanteDetalle(int idComprobanteDetalle, double monto, String accion, int idComprobante, int idCuenta) {
+    public ComprobanteDetalle(int idComprobanteDetalle, double monto, String accion, int idComprobante, String descripcionCuenta) {
         this.idComprobanteDetalle = idComprobanteDetalle;
         this.monto = monto;
         this.accion = accion;
         this.idComprobante = idComprobante;
-        this.idCuenta = idCuenta;
+        this.descripcionCuenta = descripcionCuenta;
     }
 
     public ComprobanteDetalle(double monto, String accion, int idComprobante, int idCuenta) {
@@ -57,6 +63,37 @@ public class ComprobanteDetalle
         this.codigoCuenta = codigoCuenta;
         this.descripcionCuenta = descripcionCuenta;
     }
+    
+    // para uso de los libros de transacciones
+
+    public ComprobanteDetalle(double monto, String accion, int idComprobante, String idCuenta2, Date fecha2, String comproDescripcion2) {
+        this.monto = monto;
+        this.accion = accion;
+        this.idComprobante = idComprobante;
+        this.idCuenta2 = idCuenta2;
+        this.fecha2 = fecha2;
+        this.comproDescripcion2 = comproDescripcion2;
+    }
+    
+    
+    
+
+    public Date getFecha2() {
+        return fecha2;
+    }
+
+    public void setFecha2(Date fecha2) {
+        this.fecha2 = fecha2;
+    }
+
+    public String getComproDescripcion2() {
+        return comproDescripcion2;
+    }
+
+    public void setComproDescripcion2(String comproDescripcion2) {
+        this.comproDescripcion2 = comproDescripcion2;
+    }
+
     
 
     public String getIdComprobante2() {

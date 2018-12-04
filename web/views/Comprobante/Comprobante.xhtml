@@ -23,7 +23,7 @@
                                     <p:menuitem id="itmNuevo" value="Nuevo" icon="ui-icon-document" action="#{comprobanteBean.resetNew()}" update="@form" style="color: white; font-weight: bold"/>
                                     <p:menuitem id="itmGuardar"  value="Guardar" icon="ui-icon-disk " style="color: white; font-weight: bold"
                                                 update="@form" action="#{comprobanteBean.insertarComprobante()}"/>
-                                    <p:menuitem id="itmAplicarS"  value="Aplicar" icon="ui-icon-transfer-e-w" style="color: white; font-weight: bold"
+                                    <p:menuitem id="itmAplicarS"  value="Aplicar" icon="ui-icon-transfer-e-w" action="#{comprobanteBean.modificarSaldos()}" style="color: white; font-weight: bold"
                                                 update="@form" />
                                 </p:menubar>
                                 <p:defaultCommand target="btnDefautl"/>

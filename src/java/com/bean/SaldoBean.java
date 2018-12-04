@@ -73,11 +73,22 @@ public class SaldoBean implements Serializable {
         context.addMessage(null, new FacesMessage("Exito","Saldo insertado correctamente"));
     }
     
-    public void eliminar() throws Exception{
-        DaoSaldo daoSu = new DaoSaldo();
-        daoSu.eliminarSaldo(this.sa);
-        this.sa  = new Saldo();
-        listarSaldos();
+    public void eliminar(Saldo base) throws Exception{
+        DaoSaldo daoS;
+        Saldo prueba;
+        int id;
+
+        daoS = new DaoSaldo();
+        id = base.getIdSaldo();
+        
+        prueba = new Saldo();
+        prueba.setIdSaldo(id);
+        
+        daoS.eliminarSaldo(base);
+        
+        this.listarSaldos();
+        this.sa = new Saldo();
+        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Saldo eliminado correctamente"));
     }
     

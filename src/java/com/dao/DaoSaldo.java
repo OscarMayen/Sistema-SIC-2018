@@ -204,4 +204,71 @@ public class DaoSaldo extends Conexion
         
     }
     
+    public void actualizarDebe(int id,Double sd) throws Exception
+    {
+        
+        try {
+           
+            this.conectar();
+            String sql="update saldo set totalDebe=?"
+                    + "where idSaldo=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setDouble(1,sd);
+            pre.setInt(2,id);
+            pre.executeUpdate();
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        finally{
+            this.desconectar();
+            
+        }
+    }
+    
+    public void actualizarHaber(int id,Double sd) throws Exception
+    {
+        
+        try {
+           
+            this.conectar();
+            String sql="update saldo set totalHaber=?"
+                    + "where idSaldo=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setDouble(1,sd);
+            pre.setInt(2,id);
+            pre.executeUpdate();
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        finally{
+            this.desconectar();
+            
+        }
+    }
+    
+    public void actualizarSaldoFinal(int id,Double sd) throws Exception
+    {
+        
+        try {
+           
+            this.conectar();
+            String sql="update saldo set saldoFinal=?"
+                    + "where idSaldo=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setDouble(1,sd);
+            pre.setInt(2,id);
+            pre.executeUpdate();
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        finally{
+            this.desconectar();
+            
+        }
+    }
+    
+    
 }

@@ -338,17 +338,41 @@ public class ComprobanteBean implements Serializable {
                     new FacesMessage("Error", "Error al seleccionar "));
             return;
         }
+          Cuenta ctaSel = (Cuenta) event.getObject();
+          DaoCuenta daoCu = new DaoCuenta();
+        Cuenta cuent = new Cuenta();
+
         try {
-            Cuenta ctaSel = (Cuenta) event.getObject();
-            descripcion = ctaSel.getDescripcion();
-            ctaDesc = ctaSel.getCodigo();
+            cuent = daoCu.cuentaPorCodigo(ctaSel.getCodigo());
+            this.idCuenta=cuent.getIdCuenta();
+            ctaDesc =cuent.getCodigo();
+                    
+            
+            if (cuent != null) {
+                descripcion = cuent.getDescripcion();
+                System.out.println(cuent.getDescripcion());
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage("Error", "# cuenta no existe"));
+            }
+
         } catch (Exception ex) {
-            Logger.getLogger(ComprobanteBean.class
-                    .getName())
+            Logger.getLogger(ComprobanteBean.class.getName())
                     .log(Level.SEVERE, null, ex);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Error", "Error " + ex.getMessage()));
         }
+//        try {
+//            Cuenta ctaSel = (Cuenta) event.getObject();
+//            descripcion = ctaSel.getDescripcion();
+//            ctaDesc = ctaSel.getCodigo();
+//        } catch (Exception ex) {
+//            Logger.getLogger(ComprobanteBean.class
+//                    .getName())
+//                    .log(Level.SEVERE, null, ex);
+//            FacesContext.getCurrentInstance().addMessage(null,
+//                    new FacesMessage("Error", "Error " + ex.getMessage()));
+//        }
         RequestContext.getCurrentInstance().execute("PF('dlgCta').hide();");
     }
     
@@ -389,7 +413,7 @@ public class ComprobanteBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Exito", "Detalle insertado correctamente"));
         
-        modificarSaldos();
+       // modificarSaldos();
     }
     
     
@@ -447,30 +471,39 @@ public class ComprobanteBean implements Serializable {
         Cuenta c = new Cuenta();
         Saldo s = new Saldo();
         
-        DaoSaldo DaoS = new DaoSaldo();
+        DaoSaldo daoS = new DaoSaldo();
         DaoCuenta daoC= new DaoCuenta();
         for(ComprobanteDetalle d : lstDetalle)
         {
             try {
                c=daoC.cuentaPorCodigo(d.getCodigoCuenta());
-               s=DaoS.saldoPorCodigo(c.getIdCuenta());
-               if(d.getAccion().equals("Debe") && c.getTipoCuenta()==1)
-               {
-                   // SaldoInicial = totalDebe
-                   s.setSaldoInicial(s.getSaldoInicial()+ monto);
-                   System.out.println("Resultado de la suma 1: " + (s.getSaldoInicial()));
-               }
-               else{
+               s=daoS.saldoPorCodigo(c.getIdCuenta());
+               if(d.getAccion().equals("Debe"))
+               {   // SaldoInicial = totalDebe
+                   s.setSaldoInicial(s.getSaldoInicial()+ d.getMonto());
+                   daoS.actualizarDebe(s.getIdSaldo(), s.getSaldoInicial());
+               } else{
                    // SaldoActual = totalHaber
-                   s.setSaldoActual(s.getSaldoActual()+monto);
+                   s.setSaldoActual(s.getSaldoActual()+ d.getMonto());
+                   daoS.actualizarHaber(s.getIdSaldo(),s.getSaldoActual());
+                  
                    System.out.println("Resultado de la suma es 2: " + s.getSaldoActual());
                }
+               if (c.getTipoCuenta()==1 || c.getTipoCuenta()==4) {
+                   s.setSaldoFinal(s.getSaldoInicial()-s.getSaldoActual());
+                   daoS.actualizarSaldoFinal(s.getIdSaldo(), s.getSaldoFinal());
+                   System.out.println("Resultado de la suma 1: " + (s.getSaldoInicial()));
+               } else {
+                   s.setSaldoFinal(s.getSaldoActual()-s.getSaldoInicial());
+                   daoS.actualizarSaldoFinal(s.getIdSaldo(), s.getSaldoFinal());
+               }
+               
+               //&& 
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito", "Saldos afectados correctamente"));
                 
             } catch (Exception ex) {
                 Logger.getLogger(ComprobanteBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
         }
         
     }

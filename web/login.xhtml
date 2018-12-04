@@ -18,13 +18,13 @@
                 <p:panel header="Login Sistema Contable" widgetVar="dlg">
                     <h:panelGrid columns="2" cellpadding="5">
                         <h:outputLabel for="usuario" value="Usuario: " />
-                        <p:inputText id="usuario" value="#{userLoginView.username}" placeholder="usuario" required="true" label="username" />
+                        <p:inputText id="usuario" value="#{loginBean.usuario.usuario}" placeholder="usuario" required="true" label="username" />
 
                         <h:outputLabel for="password" value="Password:" />
-                        <p:password id="password" value="#{userLoginView.password}" placeholder="password" required="true" label="password" />
+                        <p:password id="password" value="#{loginBean.usuario.password}" placeholder="password" required="true" label="password" />
 
                         <f:facet name="footer">
-                            <p:commandButton value="Login" update="mensajeGeneral" actionListener="#{userLoginView.login}"
+                            <p:commandButton value="Login" update="mensajeGeneral" ajax="False" action="#{loginBean.iniciarSesion()}"  
                                              oncomplete="handleLoginRequest(xhr, status, args)" />
                         </f:facet>  
                     </h:panelGrid>

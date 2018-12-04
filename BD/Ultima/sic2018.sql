@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2018 a las 16:15:59
+-- Tiempo de generación: 04-12-2018 a las 09:17:49
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.23
 
@@ -39,7 +39,17 @@ CREATE TABLE `comprobante` (
 --
 
 INSERT INTO `comprobante` (`idComprobante`, `fecha`, `usuario`, `descripcion`, `fechaContable`) VALUES
-(1, '2018-11-12', 'Oscar Mayen', 'Compra de Mobiliario', '2018-01-02');
+(17, '2018-12-03', 'Oscar Mayen', 'Inicializar Cuentas', '2018-12-03'),
+(18, '2018-12-03', 'Oscar', 'Compra de Seguro', '2018-12-03'),
+(19, '2018-12-03', 'Edwin Diaz', 'Compra de Mobiliario', '2018-12-03'),
+(20, '2018-12-03', 'Edwin Diaz', 'Servicios de Remodelacion a banco', '2018-12-03'),
+(21, '2018-12-03', 'Elias Sorto', 'Pago mitad de Mobiliario', '2018-12-03'),
+(22, '2018-12-03', 'Elias Sorto', 'Prestamo Bancario', '2018-12-03'),
+(23, '2018-12-03', 'Tobias Santamaria', 'Compra de Vehiculo', '2018-12-03'),
+(24, '2018-12-03', 'Tobias Santamaria', 'Servicios de Remodelacion', '2018-12-03'),
+(25, '2018-12-03', 'Francisco Orellana', 'Servicios Basicos', '2018-12-03'),
+(26, '2018-12-03', 'Francisco Orellana', 'Cancelar Mobiliario', '2018-12-03'),
+(27, '2018-12-03', 'Oscar Mayen', 'Pago de Salarios', '2018-12-03');
 
 -- --------------------------------------------------------
 
@@ -54,6 +64,39 @@ CREATE TABLE `comprobantedetalle` (
   `idComprobante` int(11) NOT NULL,
   `idCuenta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `comprobantedetalle`
+--
+
+INSERT INTO `comprobantedetalle` (`idComprobanteDetalle`, `monto`, `accion`, `idComprobante`, `idCuenta`) VALUES
+(47, 50000, 'Debe', 17, 18),
+(48, 10000, 'Debe', 17, 19),
+(49, 15000, 'Debe', 17, 20),
+(50, 75000, 'Haber', 17, 3),
+(51, 7000, 'Debe', 18, 22),
+(52, 7000, 'Haber', 18, 18),
+(53, 18000, 'Debe', 19, 21),
+(54, 9000, 'Haber', 19, 18),
+(55, 9000, 'Haber', 19, 25),
+(56, 10000, 'Debe', 20, 18),
+(57, 10000, 'Haber', 20, 28),
+(58, 4500, 'Debe', 21, 25),
+(59, 4500, 'Haber', 21, 18),
+(60, 10000, 'Debe', 22, 18),
+(61, 10000, 'Haber', 22, 25),
+(62, 15000, 'Debe', 23, 23),
+(63, 15000, 'Haber', 23, 25),
+(64, 3000, 'Debe', 24, 18),
+(65, 3000, 'Haber', 24, 19),
+(66, 6000, 'Debe', 24, 24),
+(67, 6000, 'Haber', 24, 28),
+(68, 80, 'Debe', 25, 27),
+(69, 80, 'Haber', 25, 25),
+(70, 4500, 'Haber', 26, 18),
+(71, 4500, 'Debe', 26, 25),
+(72, 3500, 'Debe', 27, 26),
+(73, 3500, 'Haber', 27, 18);
 
 -- --------------------------------------------------------
 
@@ -75,10 +118,19 @@ CREATE TABLE `cuenta` (
 
 INSERT INTO `cuenta` (`idCuenta`, `codigo`, `descripcion`, `cuentaPadre`, `tipoCuenta`) VALUES
 (1, '1', 'Activos', NULL, 1),
-(2, '11', 'Activos Circulantes', 1, 1),
-(3, '111', 'Caja', 2, 1),
-(4, '1111', 'Caja General', 3, 1),
-(5, '1111', 'Caja Chica', 3, 1);
+(2, '2', 'Pasivos', NULL, 2),
+(3, '3', 'Capital', NULL, 2),
+(18, '11', 'Efectivo', 1, 1),
+(19, '12', 'Inventario', 1, 1),
+(20, '13', 'Gasto por Tramites', 1, 1),
+(21, '14', 'Mobiliario', 1, 1),
+(22, '15', 'Seguro', 1, 1),
+(23, '16', 'Vehiculo', 1, 1),
+(24, '17', 'Cuentas por Cobrar', 1, 1),
+(25, '21', 'Cuentas por Pagar', 2, 2),
+(26, '4', 'Salario Pactado', NULL, 4),
+(27, '5', 'Gasto Sevicios Basicos', NULL, 4),
+(28, '6', 'Ingresos por Servicios', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -112,8 +164,7 @@ CREATE TABLE `periodo` (
 --
 
 INSERT INTO `periodo` (`idPeriodo`, `fechaInicio`, `fechaFin`) VALUES
-(1, '2018-01-02', '2018-12-30'),
-(4, '2018-11-03', '2018-11-18');
+(1, '2018-01-02', '2018-12-30');
 
 -- --------------------------------------------------------
 
@@ -124,8 +175,8 @@ INSERT INTO `periodo` (`idPeriodo`, `fechaInicio`, `fechaFin`) VALUES
 CREATE TABLE `saldo` (
   `idSaldo` int(11) NOT NULL,
   `anio` int(11) NOT NULL,
-  `saldoInicial` double NOT NULL,
-  `saldoActual` double NOT NULL,
+  `totalDebe` double NOT NULL,
+  `totalHaber` double NOT NULL,
   `saldoFinal` double NOT NULL,
   `idCuenta` int(11) NOT NULL,
   `idPeriodo` int(11) NOT NULL
@@ -135,8 +186,19 @@ CREATE TABLE `saldo` (
 -- Volcado de datos para la tabla `saldo`
 --
 
-INSERT INTO `saldo` (`idSaldo`, `anio`, `saldoInicial`, `saldoActual`, `saldoFinal`, `idCuenta`, `idPeriodo`) VALUES
-(1, 2018, 10000, 10000, 10000, 4, 1);
+INSERT INTO `saldo` (`idSaldo`, `anio`, `totalDebe`, `totalHaber`, `saldoFinal`, `idCuenta`, `idPeriodo`) VALUES
+(6, 2018, 73000, 28500, 44500, 18, 1),
+(7, 2018, 10000, 3000, 7000, 19, 1),
+(8, 2018, 15000, 0, 15000, 20, 1),
+(9, 2018, 0, 75000, 75000, 3, 1),
+(10, 2018, 18000, 0, 18000, 21, 1),
+(11, 2018, 7000, 0, 7000, 22, 1),
+(12, 2018, 15000, 0, 15000, 23, 1),
+(13, 2018, 6000, 0, 6000, 24, 1),
+(14, 2018, 9000, 34080, 25080, 25, 1),
+(15, 2018, 3500, 0, 3500, 26, 1),
+(16, 2018, 80, 0, 80, 27, 1),
+(17, 2018, 0, 16000, 16000, 28, 1);
 
 -- --------------------------------------------------------
 
@@ -154,9 +216,10 @@ CREATE TABLE `tipocuenta` (
 --
 
 INSERT INTO `tipocuenta` (`idTipoCuenta`, `nombre`) VALUES
-(1, 'Activos'),
-(2, 'Pasivos'),
-(3, 'Capital');
+(1, 'Deudora'),
+(2, 'Acreedora'),
+(3, 'Acreedora R'),
+(4, 'Deudora R');
 
 -- --------------------------------------------------------
 
@@ -238,17 +301,17 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `comprobante`
 --
 ALTER TABLE `comprobante`
-  MODIFY `idComprobante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idComprobante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT de la tabla `comprobantedetalle`
 --
 ALTER TABLE `comprobantedetalle`
-  MODIFY `idComprobanteDetalle` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idComprobanteDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 --
 -- AUTO_INCREMENT de la tabla `cuenta`
 --
 ALTER TABLE `cuenta`
-  MODIFY `idCuenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idCuenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT de la tabla `detalle`
 --
@@ -258,17 +321,17 @@ ALTER TABLE `detalle`
 -- AUTO_INCREMENT de la tabla `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `idPeriodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idPeriodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `saldo`
 --
 ALTER TABLE `saldo`
-  MODIFY `idSaldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idSaldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `tipocuenta`
 --
 ALTER TABLE `tipocuenta`
-  MODIFY `idTipoCuenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idTipoCuenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --

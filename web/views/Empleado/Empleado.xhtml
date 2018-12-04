@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                 <!--Adquiriendo detalles al cargar la pagina-->
+                #{empleadodBean.listarE()}
+                
+                <p:growl autoUpdate="true" showDetail="true">   
+                </p:growl>
+                <h:form id="formulario">
+                    <p:panel id="panel" header="Gestionar Empleado">
+                        <h:panelGrid columns="2" cellpadding="5" >
+
+                            <p:outputLabel for="emplnom" value="Nombre del empleado:" />
+                            <p:inputText id="emplnom" value="#{empleadodBean.emp.nombre}" required="true" label="emplnom"/>
+
+                            <p:outputLabel for="sal" value="Salario nominal diario:" />
+                            <p:inputText id="sal" value="#{empleadodBean.emp.salario_diario}" required="true" label="sal"/>
+
+                            <p:outputLabel for="horas" value="Horas trabajadas:" />
+                            <p:selectOneMenu id="horas"  value="#{empleadodBean.emp.horas_trabajo}" style="width:125px">
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                <f:selectItem itemLabel="8" itemValue="8"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="fecha"  value="Fecha de contratacion:" />
+                            <p:calendar id="fecha"  pattern="yyyy-MM-dd"  value="#{empleadodBean.emp.fecha_contratacion}"/>
+
+                        </h:panelGrid>
+
+                        <p:commandButton value="Insertar" update="datos"  actionListener="#{empleadodBean.registrar()}" icon="ui-icon-check" />
+                        <p:commandButton type="reset" value='limpiar'></p:commandButton>
+                    </p:panel>
+
+
+
+                    <p:dataTable id="datos" value="#{empleadodBean.listaEmp}" var="em">
+
+                        <p:column headerText="codigo"> 
+                            <p:outputLabel value="#{em.codigo_empleado}"/>
+                        </p:column>
+                        <p:column headerText="Nombre ">
+                            <p:outputLabel value="#{em.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Salario Hora"> 
+                            <p:outputLabel value="#{em.salario_hora}"/>
+                        </p:column>
+
+                        <p:column headerText="Salario Diario"> 
+                            <p:outputLabel value="#{em.salario_diario}"/>
+                        </p:column>
+
+                        <p:column headerText="Horas Trabajadas"> 
+                            <p:outputLabel value="#{em.horas_trabajo}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha de contratacion"> 
+                            <p:outputLabel value="#{em.fecha_contratacion}"/>
+                        </p:column>
+
+                        <p:column headerText="Modificar">
+                            <p:commandButton value="Modificar" actionListener="#{empleadodBean.seleccionar(em)}" 
+                                             oncomplete="PF('wdlgDatos').show();" 
+                                             update=":dlgDatos" 
+                                             immediate="true"/>
+                        </p:column>
+
+                        <p:column headerText="Eliminar">
+                            <p:column>
+                                <p:commandButton value="Eliminar" actionListener="#{empleadodBean.eliminar(em)}" update="datos" immediate="true">
+                                    <p:confirm header="Confirmation" message="¿Desea eliminar empleado?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+
+
+                <p:dialog header="Empleados" widgetVar="wdlgDatos" id="dlgDatos">
+                    <h:form>                
+                        <h:panelGrid columns="2" cellpadding="5" >
+                            <p:outputLabel value="nombre del empleado" />
+                            <p:inputText value="#{empleadodBean.emp.nombre}" required="true"/>
+
+                            <p:outputLabel for="sal" value="Salario nominal diario:" />
+                            <p:inputText id="sal" value="#{empleadodBean.emp.salario_diario}" required="true" label="sal"/>
+
+                            <p:outputLabel for="horas" value="Horas trabajadas:" />
+                            <p:selectOneMenu id="horas"  value="#{empleadodBean.emp.horas_trabajo}" style="width:125px">
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                <f:selectItem itemLabel="8" itemValue="8"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="fecha"  value="Fecha de contratacion:" />
+                            <p:calendar id="fecha"  pattern="yyyy-MM-dd"  value="#{empleadodBean.emp.fecha_contratacion}"/>
+
+                            <h:panelGroup>
+                                <p:commandButton   value="Modificar" actionListener="#{empleadodBean.modificar()}" 
+                                                   update=":formulario:datos"
+
+                                                   oncomplete="PF('wdlgDatos').hide();" >           
+                                    <p:confirm header="Confirmation" message="¿Esta seguro de modificar el empleado?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

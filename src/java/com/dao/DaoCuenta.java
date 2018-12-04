@@ -4,7 +4,7 @@ package com.dao;
 import com.conexion.Conexion;
 import com.modelo.Cuenta;
 import com.modelo.TipoCuenta;
-import com.sun.xml.ws.security.opt.impl.util.SOAPUtil;
+//import com.sun.xml.ws.security.opt.impl.util.SOAPUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -94,6 +94,7 @@ public class DaoCuenta extends Conexion
      
      public void eliminarCuenta(Cuenta cu) throws Exception 
     {
+        
         int flag;
         PreparedStatement pstmt;
         String sql;
@@ -102,6 +103,8 @@ public class DaoCuenta extends Conexion
         try 
         {
             this.conectar();
+            System.out.println("///////////// ID" + cu.getIdCuenta());
+            System.out.println("///////////// " + cu.getCodigo());
             sql = "delete from cuenta "
                  + "where idCuenta=?;";
             pstmt = this.getCon().prepareStatement(sql);

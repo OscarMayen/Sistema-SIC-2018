@@ -106,7 +106,36 @@ public class DaoComprobanteDetalle extends Conexion
      return comprobanteDetalles;   
     }
     
-     
+     public ArrayList<ComprobanteDetalle> mostrarLibroMayor() throws Exception
+    {
+        
+        ArrayList<ComprobanteDetalle> comprobanteDetalles = new ArrayList();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql = "select com.idComprobante, com.fecha, com.descripcion, cu.descripcion as cuenta, cd.monto, cd.accion "
+                    + "from comprobanteDetalle as cd "
+                    + "inner join comprobante as com on com.idComprobante = cd.idComprobante "
+                    + "inner join cuenta as cu on cu.idCuenta = cd.idCuenta "
+                    + "order by com.fecha; ";
+            PreparedStatement pre = this.getCon().prepareCall(sql);
+            res = pre.executeQuery();
+            while (res.next()) {
+                ComprobanteDetalle comDe = new ComprobanteDetalle();
+
+                comDe.setIdComprobante(res.getInt("idComprobante"));
+                comDe.setFecha2(res.getDate("fecha"));
+                comDe.setComproDescripcion2(res.getString("descripcion"));
+                comDe.setIdCuenta2(res.getString("cuenta"));
+                comDe.setMonto(res.getDouble("monto"));
+                comDe.setAccion(res.getString("accion"));
+                comprobanteDetalles.add(comDe);
+            }
+        } 
+        catch (Exception e) {
+        }
+        return comprobanteDetalles;   
+    }
      
     
 }

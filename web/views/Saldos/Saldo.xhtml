@@ -68,7 +68,7 @@
 
                         <p:column headerText="Eliminar">
 
-                            <p:commandButton value="Eliminar" actionListener="#{saldoBean.eliminar()}" update="datos" immediate="true">
+                            <p:commandButton value="Eliminar" actionListener="#{saldoBean.eliminar(sl)}" update="datos" immediate="true">
                                 <p:confirm header="Confirmation" message="¿Desea eliminar el saldo?" icon="ui-icon-alert" />
                             </p:commandButton>
 
@@ -96,15 +96,15 @@
                                 <p:spinner id="anio" value="#{saldoBean.sa.anio}" min="2000" max="2018" required="true" />
                                 <p:message for="anio"/>
 
-                                <p:outputLabel for="saldoInicial" value="Saldo Inicial"/>
-                                <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
+                                <p:outputLabel for="totalDebe" value="Total Debe"/>
+                                <p:spinner id="totalDebe" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
                                            required="true" stepFactor="0.01"/>
-                                <p:message for="saldoInicial"/>
+                                <p:message for="totalDebe"/>
 
-                                <p:outputLabel for="saldoActual" value="Saldo Actual"/>
-                                <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
+                                <p:outputLabel for="totalHaber" value="Total Haber"/>
+                                <p:spinner id="totalHaber" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
                                            required="true" stepFactor="0.01"/>
-                                <p:message for="saldoActual"/>
+                                <p:message for="totalHaber"/>
 
                                 <p:outputLabel for="saldoFinal" value="Saldo Final"/>
                                 <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  
@@ -148,15 +148,15 @@
                             <p:spinner id="anio" value="#{saldoBean.sa.anio}" min="2000" max="2018" required="true" />
                             <p:message for="anio"/>
 
-                            <p:outputLabel for="saldoInicial" value="Saldo Inicial"/>
-                            <p:spinner id="saldoInicial" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
+                            <p:outputLabel for="totalDebe" value="Total Debe"/>
+                            <p:spinner id="totalDebe" value="#{saldoBean.sa.saldoInicial}" prefix="$" min="0"  
                                        required="true" stepFactor="0.01"/>
-                            <p:message for="saldoInicial"/>
+                            <p:message for="totalDebe"/>
 
-                            <p:outputLabel for="saldoActual" value="Saldo Actual"/>
-                            <p:spinner id="saldoActual" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
+                            <p:outputLabel for="totalHaber" value="Total Haber"/>
+                            <p:spinner id="totalHaber" value="#{saldoBean.sa.saldoActual}" prefix="$" min="0"  
                                        required="true" stepFactor="0.01"/>
-                            <p:message for="saldoActual"/>
+                            <p:message for="totalHaber"/>
 
                             <p:outputLabel for="saldoFinal" value="Saldo Final"/>
                             <p:spinner id="saldoFinal" value="#{saldoBean.sa.saldoFinal}" prefix="$" min="0"  
